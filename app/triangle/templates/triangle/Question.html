@@ -1,0 +1,96 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+{% load staticfiles %}
+
+{% block title %}
+    Question {{ player.round_number }} of {{ Constants.num_rounds }}
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://code.highcharts.com/highcharts.js">
+      
+     
+      
+    </script>
+    <script src="http://code.highcharts.com/modules/data.js"></script>
+
+{% endblock %}
+
+{% block content %}
+	
+	You are given a bet where you have some probability, p1 of getting $5, p2 of getting $10, and p3 of getting $15. 
+
+
+	<div id="container" style="width: 300px; height: 300px; margin: 0">	</div>
+	 <script language="JavaScript" >
+    	
+    	$(function () {
+    	   	$('#container').highcharts({
+    			chart:{
+    				renderTo: 'container',
+    			},
+ 			xAxis: {
+      			min: 0,
+      			max: 1,
+      			lineWidth: 2,
+      			lineColor: 'black',
+      			tickColor: 'white',
+      			labels: {
+           			enabled: false
+       			}
+  			},
+  			yAxis: {
+      			min: 0,
+      			max: 1,
+      			lineWidth: 2,
+      			lineColor: 'black',
+      			gridLineColor: 'white',
+      			labels: {
+           			enabled: false
+       			},
+      			title:{
+           			text:' '
+      			 }
+ 			 },
+ 			 title: {
+      			text: ""
+  			},
+ 			series: [{
+     			type: 'line',
+      			showInLegend: false,
+      			name: ' ',
+      			data: [[1, 0], [0, 1]],
+       			color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+               		marker: {enabled: false} ,
+           		plotLines: [{
+          			color: '#FF0000 ',
+          			width: 2,
+          			value: 10, }
+     			],
+      			states: {
+          			hover: {
+              			lineWidth: 0
+          			}
+      			},
+      			enableMouseTracking: false
+  			}, {
+      		type: 'scatter',
+      		name: ' ',
+      		data: {{series}} ,
+      		marker: {
+          		radius: 4
+      		},
+      showInLegend: false
+  }]
+});
+});
+
+
+    	
+    </script>
+
+    {% formfield player.submitted_answer with label=player.question %}
+
+    {% next_button %}
+
+{% endblock %}
