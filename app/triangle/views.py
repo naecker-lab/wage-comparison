@@ -5,42 +5,66 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 
 
-
+#This class sends information to the Questions.html page
 class Question(Page):
     form_model = models.Player
     form_fields = ['submitted_answer']
 
+    #Creates text for answer options
     def submitted_answer_choices(self):
         qd = self.player.current_question()
+        #Numbers for Option A
+        a_p1 = int(100*float(qd['A_p1']))
+        a_p3 = int(100*float(qd['A_p3']))
+        a_p2 = int(100 - a_p1 - a_p3)
+        
+        #Numbers for Option B
+        b_p1 = int(100*float(qd['B_p1']))
+        b_p3 = int(100*float(qd['B_p3']))
+        b_p2 = int(100 - a_p1 - a_p3)
+
+        #Returns dynamic text options for A and B
         return [
-           qd['a_p1']+"%"+" chance of "+qd['payoff1']+", "+qd['a_p2']+"%"+" chance of "+qd['payoff2']+", or "+qd['a_p3']+"%"+" chance of "+qd['payoff3'],
-           qd['b_p1']+"%"+" chance of "+qd['payoff1']+", "+qd['b_p2']+"%"+" chance of "+qd['payoff2']+", or "+qd['b_p3']+"%"+" chance of "+qd['payoff3'],
+           str(a_p1)+"%"+" chance of "+qd['payoff1']+", "+str(a_p2)+"%"+" chance of "+qd['payoff2']+", or "+str(a_p3)+"%"+" chance of "+qd['payoff3'],
+           str(b_p1)+"%"+" chance of "+qd['payoff1']+", "+str(b_p2)+"%"+" chance of "+qd['payoff2']+", or "+str(b_p3)+"%"+" chance of "+qd['payoff3'],
         ]
 
+    #Creates data series that is passed to imbeded highchart triangle
+    #Data takes form [[a1,a2],[b1,b2]]
     def vars_for_template(self):
+        #Array for single set of points
+        pointA = []
+        pointB = []
+        #Array to hold 2 sets of points
         points = []
-        points2 = []
         qd = self.player.current_question()
 
-        points.append(float(qd['A_p1']))
-        points.append(float(qd['A_p3']))
-        points2.append(points)
+        #Adding points for set A
+        pointA.append(float(qd['A_p1']))
+        pointA.append(float(qd['A_p3']))
 
-        points = []
-        points.append(float(qd['B_p1']))
-        points.append(float(qd['B_p3']))
-        points2.append(points)
+        #Adding points for set B
+        pointB.append(float(qd['B_p1']))
+        pointB.append(float(qd['B_p3']))
 
-        points2 = safe_json(points2)
+        #Adding A and B to points
+        points.append(pointA)
+        points.append(pointB)
+
+        #This line is needed for the data to be passed to highcharts
+        #Without it the data is in the wrong form and will crash program
+        points = safe_json(points)
+
+        #Returns [[a1,a2],[b1,b2]] as a series
         return{
-            'series' : points2,
+            'series' : points,
         }
 
     def before_next_page(self):
        
         pass
 
-
+#This class sends information to Results.html
 class Results(Page):
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
@@ -52,7 +76,7 @@ class Results(Page):
            
         }
 
-
+#Order in which pages are displayed
 page_sequence = [
     Question,
     Results
