@@ -17,9 +17,11 @@ See the comment below about how to randomize the order of pages.
 
 #Defines attributes of game that remain constant throughout game
 class Constants(BaseConstants):
-    name_in_url = 'triangle'
+    name_in_url = 'counting-zeros'
     #This is a 1-player game, so there are no groups of players
     players_per_group = None
+
+   
 
     #Calls CSV from location within app folder
     with open('triangle/triangle.csv') as f:
@@ -28,6 +30,7 @@ class Constants(BaseConstants):
     #Defines number of rounds as number of rows in CSV
     #Additional rounds can be addded by adding rows to CSV
     num_rounds = len(payoff_set)
+
 
 
 class Subsession(BaseSubsession):

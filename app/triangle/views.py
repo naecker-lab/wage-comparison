@@ -3,6 +3,7 @@ from otree.api import safe_json
 from . import models
 from ._builtin import Page, WaitPage
 from .models import Constants
+import numpy as np
 
 
 #This class sends information to the Questions.html page
@@ -55,9 +56,14 @@ class Question(Page):
         #Without it the data is in the wrong form and will crash program
         points = safe_json(points)
 
+        m = np.random.randint(2, size=(10, 15))
+        num_zero = (10*15) - np.count_nonzero(m)
+
         #Returns [[a1,a2],[b1,b2]] as a series
         return{
             'series' : points,
+            'matrix' : m,
+            'num_zero' : num_zero,
         }
 
     def before_next_page(self):
