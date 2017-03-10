@@ -24,27 +24,30 @@ class Constants(BaseConstants):
    
 
     #Calls CSV from location within app folder
-    with open('triangle/triangle.csv') as f:
-        payoff_set = list(csv.DictReader(f))
+    #with open('triangle/triangle.csv') as f:
+        #payoff_set = list(csv.DictReader(f))
 
     #Defines number of rounds as number of rows in CSV
     #Additional rounds can be addded by adding rows to CSV
-    num_rounds = len(payoff_set)
+    #num_rounds = len(payoff_set)
+    num_rounds=5
+    guess_max = 150
 
 
 
 class Subsession(BaseSubsession):
 
     #Keeps track of which row of the CSV the  app is pulling from for the current question
-    def before_session_starts(self):
-        if self.round_number == 1:
-            self.session.vars['questions'] = Constants.payoff_set
+    #def before_session_starts(self):
+    #    if self.round_number == 1:
+     #       self.session.vars['questions'] = Constants.payoff_set
        
         #Gets current row and then selects columns to extracdt needed data
-        for p in self.get_players():
-            question_data = p.current_question()
-            p.question_id = question_data['id']
-            p.question = "For Set " + str(question_data['id']) + " , which point would you prefer?" 
+      #  for p in self.get_players():
+       #     question_data = p.current_question()
+        #    p.question_id = question_data['id']
+         #   p.question = "For Set " + str(question_data['id']) + " , which point would you prefer?" 
+         pass
 
 #Defines how groups opterate
 #Since we do not have groups, classis not used
@@ -54,10 +57,10 @@ class Group(BaseGroup):
 
 #Defines attributes for each player
 class Player(BasePlayer):
-    question_id = models.PositiveIntegerField()
-    question = models.CharField()
-    submitted_answer = models.CharField(widget=widgets.RadioSelect())
+    answer = models.PositiveIntegerField(max=Constants.guess_max)
+    #question = models.CharField()
+    #submitted_answer = models.CharField(widget=widgets.RadioSelect())
 
 
-    def current_question(self):
-        return self.session.vars['questions'][self.round_number - 1]
+    #def current_question(self):
+     #   return self.session.vars['questions'][self.round_number - 1]
