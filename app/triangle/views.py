@@ -57,12 +57,32 @@ class Question(Page):
 
         m = np.random.randint(2, size=(10, 15))
         num_zero = (10*15) - np.count_nonzero(m)
+        m1=m[0]
+        m2=m[1]
+        m3=m[2]
+        m4=m[3]
+        m5=m[4]
+        m6=m[5]
+        m7=m[6]
+        m8=m[7]
+        m9=m[8]
+        m10=m[9]
 
         #Returns [[a1,a2],[b1,b2]] as a series
         return{
             #'series' : points,
             'matrix' : m,
             'num_zero' : num_zero,
+            'm1' : m1,
+            'm2' : m2,
+            'm3' : m3,
+            'm4' : m4,
+            'm5' : m5,
+            'm6' : m6,
+            'm7' : m7,
+            'm8' : m8,
+            'm9' : m9,
+            'm10' : m10,
         }
 
     def before_next_page(self):
