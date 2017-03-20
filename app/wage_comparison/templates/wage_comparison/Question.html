@@ -1,0 +1,38 @@
+{% extends "global/Base.html" %}
+
+
+{% load staticfiles otree_tags %}
+{% load staticfiles %}
+
+{% block title %}
+    Question {{ player.round_number }} of {{ Constants.num_rounds }}
+{% endblock %}
+
+{% block scripts %}
+  <!-- These are imports that are needed for highcharts to run-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/data.js"></script>
+
+{% endblock %}
+
+{% block content %}
+
+ <!-- Game prompt -->
+  How many zeros are in the table?
+
+  <div>
+
+{{m1}} <br> {{m2}} <br> {{m3}} <br> {{m4}} <br> {{m5}} <br> 
+{{m6}} <br> {{m7}} <br> {{m8}} <br> {{m9}} <br> {{m10}} <br>
+
+{{num_zero}}
+</div>
+
+
+ 
+
+    {% formfield player.answer with label=player.question %}
+
+    {% next_button %}
+
+{% endblock %}
