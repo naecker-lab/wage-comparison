@@ -140,10 +140,10 @@ SESSION_CONFIG_DEFAULTS = {
 SESSION_CONFIGS = [
    
     {	
-        'name': 'triangle',
-        'display_name': "Triangle",
+        'name': 'wage_comparison',
+        'display_name': "Wage Comparison",
         'num_demo_participants': 1,
-        'app_sequence': ['triangle'],
+        'app_sequence': ['wage_comparison'],
     },
    
 
