@@ -14,15 +14,15 @@
 
     <table class="table">
         <tr>
-            <th>Question</th>
+            <th>Correct Answer</th>
             <th>Your answer</th>
-            
+
         </tr>
         {% for p in player_in_all_rounds %}
             <tr>
-                <td>{{ p.question }}</td>
+                <!-- <td>{{ p.num_zero }}</td> -->
+                <td>{{"answer"}}
                 <td>{{ p.answer }}</td>
-
             </tr>
         {% endfor %}
     </table>
