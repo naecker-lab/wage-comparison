@@ -2,7 +2,7 @@ from otree.api import (
     models, widgets, BaseConstants, BaseSubsession, BaseGroup, BasePlayer,
     Currency as c, currency_range
 )
-import csv
+import numpy as np
 
 author = 'Your name here'
 
@@ -23,19 +23,17 @@ class Constants(BaseConstants):
     num_rounds=5
     guess_max = 150
 
-class Subsession(BaseSubsession):
-    # correct = "views.Question.form_fields"
-    #Keeps track of which row of the CSV the  app is pulling from for the current question
-    #def before_session_starts(self):
-    #    if self.round_number == 1:
-     #       self.session.vars['questions'] = Constants.payoff_set
+    i=0
+    matrices=[]
+    zeros=[]
+    while i<num_rounds:
+      matrices.append(np.random.randint(2, size=(10, 15)))
+      zeros.append((10*15) - np.count_nonzero(matrices[i]))
+      i=i+1
 
-        #Gets current row and then selects columns to extracdt needed data
-      #  for p in self.get_players():
-       #     question_data = p.current_question()
-        #    p.question_id = question_data['id']
-         #   p.question = "For Set " + str(question_data['id']) + " , which point would you prefer?"
-         pass
+
+class Subsession(BaseSubsession):
+  pass
 
 #Defines how groups opterate
 #Since we do not have groups, class is not used
@@ -46,11 +44,9 @@ class Group(BaseGroup):
 #Defines attributes for each player
 class Player(BasePlayer):
     answer = models.PositiveIntegerField(max=Constants.guess_max)
-    # submitted_answer = models.PositiveIntegerField(max=Constants.guess_max)
-    # answer = num_zero
-    #question = models.CharField()
-    #submitted_answer = models.CharField(widget=widgets.RadioSelect())
+    is_correct = models.BooleanField()
+    solution = models.PositiveIntegerField()
 
-
-    #def current_question(self):
-     #   return self.session.vars['questions'][self.round_number - 1]
+    def check_correct(self):
+      self.solution = Constants.zeros[self.round_number-1]
+      self.is_correct = (self.answer == Constants.zeros[self.round_number-1])

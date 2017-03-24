@@ -12,8 +12,10 @@ class Question(Page):
     form_fields = ['answer']
 
     def vars_for_template(self):
-        m = np.random.randint(2, size=(10, 15))
-        num_zero = (10*15) - np.count_nonzero(m)
+        m = Constants.matrices[self.round_number-1]
+        num_zero = Constants.zeros[self.round_number-1]
+        #m = np.random.randint(2, size=(10, 15))
+        #num_zero = (10*15) - np.count_nonzero(m)
         matrixdict = {}
         for i in range(len(m)):
             matrixdict['m'+str(i+1)] = m[i]
@@ -37,7 +39,7 @@ class Question(Page):
         }
 
     def before_next_page(self):
-        pass
+        self.player.check_correct()
 
 #This class sends information to Results.html
 class Results(Page):
@@ -46,10 +48,11 @@ class Results(Page):
 
     def vars_for_template(self):
         player_in_all_rounds = self.player.in_all_rounds()
+        correct = sum([player.is_correct for player in player_in_all_rounds])
 
         return {
             'player_in_all_rounds': player_in_all_rounds,
-            # 'num_zero': num_zero,
+            'questions_correct': correct,
         }
 
 #Order in which pages are displayed
