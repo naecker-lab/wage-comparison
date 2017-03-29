@@ -24,10 +24,12 @@ class Constants(BaseConstants):
     guess_max = 150
 
     i=0
+    p=0
     matrices=[]
     zeros=[]
     while i<num_rounds:
-      matrices.append(np.random.randint(2, size=(10, 15)))
+      p=round(np.random.uniform(0.3,0.7),ndigits=1)
+      matrices.append(np.random.binomial(1, p, size=(10, 15)))
       zeros.append((10*15) - np.count_nonzero(matrices[i]))
       i=i+1
 
