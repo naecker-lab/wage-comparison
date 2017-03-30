@@ -28,7 +28,7 @@ class Constants(BaseConstants):
     matrices=[]
     zeros=[]
     while i<num_rounds:
-      p=round(np.random.uniform(0.3,0.7),ndigits=1)
+      p=np.random.uniform(0.3,0.7)
       matrices.append(np.random.binomial(1, p, size=(10, 15)))
       zeros.append((10*15) - np.count_nonzero(matrices[i]))
       i=i+1
