@@ -13,14 +13,14 @@ class Question(Page):
     form_fields = ['answer']
 
     def vars_for_template(self):
+        #pull each matrix and its num of zeros
+        #from the matrices list corresponding to the round number
         m = Constants.matrices[self.round_number-1]
         num_zero = Constants.zeros[self.round_number-1]
-        #m = np.random.randint(2, size=(10, 15))
-        #num_zero = (10*15) - np.count_nonzero(m)
+        #gather each array and replsce brackets with spaces for layout purposes
         matrixdict = {}
         for i in range(len(m)):
             matrixdict['m'+str(i+1)] = str(m[i]).replace('[','').replace(']','')
-        # Took away repeated code.
 
         # Returns these values to Question.html
         return{
@@ -39,7 +39,7 @@ class Question(Page):
             'm10' : matrixdict['m10'],
         }
 
-
+    #check whether player's submitted answer is correct
     def before_next_page(self):
         self.player.check_correct()
 
@@ -50,6 +50,7 @@ class Results(Page):
 
     def vars_for_template(self):
         player_in_all_rounds = self.player.in_all_rounds()
+        #adds up all the times the player was correct
         correct = sum([player.is_correct for player in player_in_all_rounds])
 
         return {

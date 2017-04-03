@@ -23,6 +23,8 @@ class Constants(BaseConstants):
     num_rounds=5
     guess_max = 150
 
+    #Create list of the matrices, and list of the number of zeros for each matrix
+    #For each round number, the corresponding matrix and its number of zeros will be pulled
     i=0
     p=0
     matrices=[]
@@ -45,10 +47,14 @@ class Group(BaseGroup):
 
 #Defines attributes for each player
 class Player(BasePlayer):
+    #player's answer for each matrix
     answer = models.PositiveIntegerField(max=Constants.guess_max)
+    #checks if player's answer matches the solution
     is_correct = models.BooleanField()
+    #matrix number of zeros solution - will use for Results page
     solution = models.PositiveIntegerField()
 
+    #function that checks if player's answer is correct
     def check_correct(self):
       self.solution = Constants.zeros[self.round_number-1]
       self.is_correct = (self.answer == Constants.zeros[self.round_number-1])
