@@ -4,6 +4,7 @@ from . import models
 from ._builtin import Page, WaitPage
 from .models import Constants
 import numpy as np
+import sys
 
 
 #This class sends information to the Questions.html page
@@ -18,7 +19,7 @@ class Question(Page):
         #num_zero = (10*15) - np.count_nonzero(m)
         matrixdict = {}
         for i in range(len(m)):
-            matrixdict['m'+str(i+1)] = m[i]
+            matrixdict['m'+str(i+1)] = str(m[i]).replace('[','').replace(']','')
         # Took away repeated code.
 
         # Returns these values to Question.html
@@ -37,6 +38,7 @@ class Question(Page):
             'm9' : matrixdict['m9'],
             'm10' : matrixdict['m10'],
         }
+
 
     def before_next_page(self):
         self.player.check_correct()
