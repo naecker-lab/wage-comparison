@@ -6,7 +6,6 @@ from .models import Constants
 import numpy as np
 import sys
 
-
 #This class sends information to the Questions.html page
 class Question(Page):
     form_model = models.Player
@@ -24,6 +23,8 @@ class Question(Page):
 
         questions_so_far = self.round_number-1
 
+        correct_so_far = sum([player.is_correct for player in self.player.in_previous_rounds()])
+
         # Returns these values to Question.html
         return{
             #'series' : points,
@@ -40,11 +41,13 @@ class Question(Page):
             'm9' : matrixdict['m9'],
             'm10' : matrixdict['m10'],
             'questions_so_far' : questions_so_far,
+            'correct_so_far' : correct_so_far,
         }
 
     #check whether player's submitted answer is correct
     def before_next_page(self):
         self.player.check_correct()
+
 
 #This class sends information to Results.html
 class Results(Page):

@@ -30,7 +30,10 @@
     {% formfield player.answer with label=player.question %}
 
     {% next_button %}
-You have answered x out of {{ questions_so_far }} correctly so far.
+
+You have answered {{ correct_so_far }} out of {{ questions_so_far }} correctly so far.
 
 
 {% endblock %}
+
+

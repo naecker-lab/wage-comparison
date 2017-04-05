@@ -20,7 +20,7 @@ class Constants(BaseConstants):
     name_in_url = 'counting-zeros'
     #This is a 1-player game, so there are no groups of players
     players_per_group = None
-    num_rounds=5
+    num_rounds=10
     guess_max = 150
 
     #Create list of the matrices, and list of the number of zeros for each matrix
@@ -53,8 +53,16 @@ class Player(BasePlayer):
     is_correct = models.BooleanField()
     #matrix number of zeros solution - will use for Results page
     solution = models.PositiveIntegerField()
+    question_correct = models.BooleanField()
 
     #function that checks if player's answer is correct
     def check_correct(self):
       self.solution = Constants.zeros[self.round_number-1]
       self.is_correct = (self.answer == Constants.zeros[self.round_number-1])
+      if self.is_correct == True:
+        question_correct = True
+      else:
+        question_correct = False
+
+
+
