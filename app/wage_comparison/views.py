@@ -22,6 +22,8 @@ class Question(Page):
         for i in range(len(m)):
             matrixdict['m'+str(i+1)] = str(m[i]).replace('[','').replace(']','')
 
+        questions_so_far = self.round_number-1
+
         # Returns these values to Question.html
         return{
             #'series' : points,
@@ -37,6 +39,7 @@ class Question(Page):
             'm8' : matrixdict['m8'],
             'm9' : matrixdict['m9'],
             'm10' : matrixdict['m10'],
+            'questions_so_far' : questions_so_far,
         }
 
     #check whether player's submitted answer is correct
