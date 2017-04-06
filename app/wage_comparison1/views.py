@@ -14,12 +14,20 @@ class Question(Page):
     def vars_for_template(self):
         #pull each matrix and its num of zeros
         #from the matrices list corresponding to the round number
-        m = Constants.matrices[self.round_number-1]
-        num_zero = Constants.zeros[self.round_number-1]
+        if self.player.id_in_group == 1:
+            m = Constants.matrices1[self.round_number-1]
+            num_zero = Constants.zeros1[self.round_number-1]
         #gather each array and replsce brackets with spaces for layout purposes
-        matrixdict = {}
-        for i in range(len(m)):
-            matrixdict['m'+str(i+1)] = str(m[i]).replace('[','').replace(']','')
+            matrixdict = {}
+            for i in range(len(m)):
+                matrixdict['m'+str(i+1)] = str(m[i]).replace('[','').replace(']','')
+        if self.player.id_in_group == 2:
+            m = Constants.matrices2[self.round_number-1]
+            num_zero = Constants.zeros2[self.round_number-1]
+        #gather each array and replsce brackets with spaces for layout purposes
+            matrixdict = {}
+            for i in range(len(m)):
+                matrixdict['m'+str(i+1)] = str(m[i]).replace('[','').replace(']','')
 
         questions_so_far = self.round_number-1
 

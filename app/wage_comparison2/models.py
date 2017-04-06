@@ -19,7 +19,7 @@ See the comment below about how to randomize the order of pages.
 class Constants(BaseConstants):
     name_in_url = 'counting-zeros2'
     #This is a 1-player game, so there are no groups of players
-    players_per_group = None
+    players_per_group = 2
     num_rounds=10
     guess_max = 150
 
@@ -59,10 +59,5 @@ class Player(BasePlayer):
     def check_correct(self):
       self.solution = Constants.zeros[self.round_number-1]
       self.is_correct = (self.answer == Constants.zeros[self.round_number-1])
-      if self.is_correct == True:
-        question_correct = True
-      else:
-        question_correct = False
-
 
 

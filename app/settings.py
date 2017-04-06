@@ -142,7 +142,7 @@ SESSION_CONFIGS = [
     {	
         'name': 'wage_comparison',
         'display_name': "Wage Comparison",
-        'num_demo_participants': 1,
+        'num_demo_participants': 2,
         'app_sequence': ['wage_comparison1', 'wage_comparison2'],
     },
    
