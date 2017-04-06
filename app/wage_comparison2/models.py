@@ -25,15 +25,25 @@ class Constants(BaseConstants):
 
     #Create list of the matrices, and list of the number of zeros for each matrix
     #For each round number, the corresponding matrix and its number of zeros will be pulled
-    i=0
-    p=0
-    matrices=[]
-    zeros=[]
-    while i<num_rounds:
-      p=np.random.uniform(0.3,0.7)
-      matrices.append(np.random.binomial(1, p, size=(10, 15)))
-      zeros.append((10*15) - np.count_nonzero(matrices[i]))
-      i=i+1
+    i1=0
+    p1=0
+    matrices1=[]
+    zeros1=[]
+    while i1<num_rounds:
+      p1=np.random.uniform(0.3,0.7)
+      matrices1.append(np.random.binomial(1, p1, size=(10, 15)))
+      zeros1.append((10*15) - np.count_nonzero(matrices1[i1]))
+      i1=i1+1
+
+    i2=0
+    p2=0
+    matrices2=[]
+    zeros2=[]
+    while i2<num_rounds:
+      p2=np.random.uniform(0.3,0.7)
+      matrices2.append(np.random.binomial(1, p2, size=(10, 15)))
+      zeros2.append((10*15) - np.count_nonzero(matrices2[i2]))
+      i2=i2+1
 
 
 class Subsession(BaseSubsession):
@@ -57,7 +67,10 @@ class Player(BasePlayer):
 
     #function that checks if player's answer is correct
     def check_correct(self):
-      self.solution = Constants.zeros[self.round_number-1]
-      self.is_correct = (self.answer == Constants.zeros[self.round_number-1])
-
+      if self.id_in_group==1:
+        self.solution = Constants.zeros1[self.round_number-1]
+        self.is_correct = (self.answer == Constants.zeros1[self.round_number-1])
+      if self.id_in_group==2:
+        self.solution = Constants.zeros2[self.round_number-1]
+        self.is_correct = (self.answer == Constants.zeros2[self.round_number-1])
 
