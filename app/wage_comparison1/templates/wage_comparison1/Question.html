@@ -1,0 +1,39 @@
+{% extends "global/Base.html" %}
+
+
+{% load staticfiles otree_tags %}
+{% load staticfiles %}
+
+{% block title %}
+    Question {{ player.round_number }} of {{ Constants.num_rounds }}
+{% endblock %}
+
+
+{% block content %}
+
+ <!-- Game prompt -->
+  How many zeros are in the table?
+<br>
+<div>
+
+{{m1}} <br> {{m2}} <br> {{m3}} <br> {{m4}} <br> {{m5}} <br>
+{{m6}} <br> {{m7}} <br> {{m8}} <br> {{m9}} <br> {{m10}} <br>
+
+{{num_zero}}
+<br>
+
+</div>
+
+
+
+
+    {% formfield player.answer with label=player.question %}
+
+    {% next_button %}
+
+You have answered {{ correct_so_far }} out of {{ questions_so_far }} correctly so far.
+
+
+{% endblock %}
+
+
