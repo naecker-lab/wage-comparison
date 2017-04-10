@@ -6,6 +6,9 @@ from .models import Constants
 import numpy as np
 import sys
 
+class Introduction(Page):
+    pass
+
 #This class sends information to the Questions.html page
 class Question(Page):
     form_model = models.Player
@@ -56,6 +59,10 @@ class Question(Page):
     def before_next_page(self):
         self.player.check_correct()
 
+class ResultsWaitPage(WaitPage):
+    def after_all_players_arrive(self):
+        self.group.average()
+
 
 #This class sends information to Results.html
 class Results(Page):
@@ -70,10 +77,12 @@ class Results(Page):
         return {
             'player_in_all_rounds': player_in_all_rounds,
             'questions_correct': correct,
+            'average': self.player.average
         }
 
 #Order in which pages are displayed
 page_sequence = [
     Question,
-    Results
+    ResultsWaitPage,
+    Results,
 ]

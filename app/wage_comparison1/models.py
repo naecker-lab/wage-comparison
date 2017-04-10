@@ -20,7 +20,7 @@ class Constants(BaseConstants):
     name_in_url = 'counting-zeros1'
     #This is a 1-player game, so there are no groups of players
     players_per_group = 2
-    num_rounds=10
+    num_rounds=2
     guess_max = 150
 
     #Create list of the matrices, and list of the number of zeros for each matrix
@@ -52,7 +52,12 @@ class Subsession(BaseSubsession):
 #Defines how groups opterate
 #Since we do not have groups, class is not used
 class Group(BaseGroup):
-    pass
+  def average(self):
+    players = self.get_players()
+    total_correct = sum([p.is_correct for p in players])
+    average = total_correct/(2*Constants.num_rounds)
+    for p in players:
+      p.average = average
 
 
 #Defines attributes for each player
@@ -64,6 +69,7 @@ class Player(BasePlayer):
     #matrix number of zeros solution - will use for Results page
     solution = models.PositiveIntegerField()
     question_correct = models.BooleanField()
+    average = models.FloatField()
 
     #function that checks if player's answer is correct
     def check_correct(self):
@@ -73,5 +79,8 @@ class Player(BasePlayer):
       if self.id_in_group==2:
         self.solution = Constants.zeros2[self.round_number-1]
         self.is_correct = (self.answer == Constants.zeros2[self.round_number-1])
+
+    def other_player(self):
+      return self.get_others_in_group()[0]
 
 
