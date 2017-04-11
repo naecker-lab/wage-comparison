@@ -58,10 +58,15 @@ class Question(Page):
     #check whether player's submitted answer is correct
     def before_next_page(self):
         self.player.check_correct()
+        if self.player.is_correct == True:
+            self.participant.vars["correct_answers"] +=1
 
 class ResultsWaitPage(WaitPage):
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
     def after_all_players_arrive(self):
         self.group.average()
+
 
 
 #This class sends information to Results.html
