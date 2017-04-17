@@ -5,16 +5,24 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 import numpy as np
 import sys
+import time
+from otree.models_concrete import (PageTimeout, PageCompletion)
+
+from .gto_timeout_page import GTOPage
+
+
 
 class Introduction(Page):
     pass
 
 #This class sends information to the Questions.html page
-class Question(Page):
+class Question(GTOPage):
+    general_timeout=True
+
     form_model = models.Player
     form_fields = ['answer']
 
-    def vars_for_template(self):
+    def gto_vars_for_template(self):
         #pull each matrix and its num of zeros
         #from the matrices list corresponding to the round number
         if self.player.id_in_group == 1:
@@ -34,7 +42,7 @@ class Question(Page):
 
         questions_so_far = self.round_number-1
 
-        correct_so_far = sum([player.is_correct for player in self.player.in_previous_rounds()])
+        #correct_so_far = sum([player.is_correct for player in self.player.in_previous_rounds()])
 
         # Returns these values to Question.html
         return{
@@ -52,11 +60,11 @@ class Question(Page):
             'm9' : matrixdict['m9'],
             'm10' : matrixdict['m10'],
             'questions_so_far' : questions_so_far,
-            'correct_so_far' : correct_so_far,
+            #'correct_so_far' : correct_so_far,
         }
 
     #check whether player's submitted answer is correct
-    def before_next_page(self):
+    def gto_before_next_page(self):
         self.player.check_correct()
         if self.player.is_correct == True:
             self.participant.vars["correct_answers"] +=1
@@ -71,6 +79,7 @@ class ResultsWaitPage(WaitPage):
 
 #This class sends information to Results.html
 class Results(Page):
+    timeout_seconds=200
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
 

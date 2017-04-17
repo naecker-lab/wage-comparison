@@ -22,6 +22,8 @@ class Constants(BaseConstants):
     players_per_group = 2
     num_rounds=10
     guess_max = 150
+    gto_seconds = 20
+    overallrounds=True
 
     #Create list of the matrices, and list of the number of zeros for each matrix
     #For each round number, the corresponding matrix and its number of zeros will be pulled
