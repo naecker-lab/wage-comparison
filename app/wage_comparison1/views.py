@@ -44,6 +44,7 @@ class Question(GTOPage):
 
         correct_so_far = sum([player.is_correct for player in self.player.in_previous_rounds()])
 
+
         # Returns these values to Question.html
         return{
             #'series' : points,
@@ -76,7 +77,6 @@ class ResultsWaitPage(WaitPage):
         self.group.average()
 
 
-
 #This class sends information to Results.html
 class Results(Page):
 
@@ -86,7 +86,8 @@ class Results(Page):
     def vars_for_template(self):
         player_in_all_rounds = self.player.in_all_rounds()
         #adds up all the times the player was correct
-        correct = sum([player.is_correct for player in player_in_all_rounds])
+        # problem: is_correct is not defined therefore looking for the sum does not occur
+        # correct = sum([player.is_correct for player in player_in_all_rounds])
 
         return {
             'player_in_all_rounds': player_in_all_rounds,
