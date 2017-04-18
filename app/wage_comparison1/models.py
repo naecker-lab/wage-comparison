@@ -20,7 +20,7 @@ class Constants(BaseConstants):
     name_in_url = 'counting-zeros1'
     #This is a 1-player game, so there are no groups of players
     players_per_group = 2
-    num_rounds=10
+    num_rounds=20
     guess_max = 150
     gto_seconds = 20
     overallrounds=True
@@ -93,5 +93,3 @@ class Player(BasePlayer):
 
     def other_player(self):
       return self.get_others_in_group()[0]
-
-
