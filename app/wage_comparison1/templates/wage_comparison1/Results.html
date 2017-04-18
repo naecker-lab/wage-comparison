@@ -8,12 +8,12 @@
 {% block content %}
 
     <p>
-        You answered {{ questions_correct }} out of {{ Constants.num_rounds }}
+        You answered {{ questions_correct }} out of {{ total_answered }}
         questions correctly.
     </p>
 
     <p>
-        The average correct is {{ player.average }} out of {{ Constants.num_rounds }}
+        The average correct is {{ player.average }} out of {{ total_answered }} 
     </p>
 
     <table class="table">

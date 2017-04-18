@@ -86,13 +86,29 @@ class Results(Page):
     def vars_for_template(self):
         player_in_all_rounds = self.player.in_all_rounds()
         #adds up all the times the player was correct
-        # problem: is_correct is not defined therefore looking for the sum does not occur
-        # correct = sum([player.is_correct for player in player_in_all_rounds])
+
+        # Gets the number of "True" accounts for each player
+        # This gets the number of correct answers made by the player.
+        plays = [player.is_correct for player in player_in_all_rounds]
+        correct = 0
+        for i in plays:
+            if i == True:
+                correct += 1
+
+        # Gets the number of answers above 0 that the player answered. (Excludes None and 0 instances)
+        # This gets the total # of answered questions.
+        answers = [player.answer for player in player_in_all_rounds]
+        total_answered = 0
+        for i in answers:
+            if i != None:
+                if i > 0:
+                    total_answered += 1
 
         return {
             'player_in_all_rounds': player_in_all_rounds,
             'questions_correct': correct,
-            'average': self.player.average
+            'average': self.player.average,
+            'total_answered': total_answered,
         }
 
 #Order in which pages are displayed
