@@ -53,6 +53,9 @@ class Subsession(BaseSubsession):
     if self.round_number == 1:
       for p in self.get_players():
         p.participant.vars['correct_answers'] = 0
+        p.participant.vars['total_answered'] = 0
+        p.participant.vars['percent'] = 0
+
 
 #Defines how groups opterate
 #Since we do not have groups, class is not used
@@ -60,12 +63,23 @@ class Group(BaseGroup):
   def average(self):
     players = self.get_players()
     total = 0
+    # for p in players:
+    #     total+=p.participant.vars["correct_answers"]
+    # average = total/Constants.players_per_group
+    # for p in players:
+    #     p.total = total
+    #     p.average = average
+
+    # for p in players:
+    #   total += 
+
     for p in players:
-        total+=p.participant.vars["correct_answers"]
+      total+=p.participant.vars['percent']
     average = total/Constants.players_per_group
+
     for p in players:
-        p.total = total
-        p.average = average
+      p.average = average
+      p.total = p.participant.vars['percent']
 
 
 

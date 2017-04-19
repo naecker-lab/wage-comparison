@@ -66,6 +66,7 @@ class Question(GTOPage):
 
     #check whether player's submitted answer is correct
     def before_next_page(self):
+        #self.participant.vars["total_answered"] += 1
         self.player.check_correct()
         if self.player.is_correct == True:
             self.participant.vars["correct_answers"] +=1
@@ -89,26 +90,35 @@ class Results(Page):
 
         # Gets the number of "True" accounts for each player
         # This gets the number of correct answers made by the player.
-        plays = [player.is_correct for player in player_in_all_rounds]
-        correct = 0
-        for i in plays:
-            if i == True:
-                correct += 1
+        # plays = [player.is_correct for player in player_in_all_rounds]
+        # correct = 0
+        # for i in plays:
+        #     if i == True:
+        #         correct += 1
 
         # Gets the number of answers above 0 that the player answered. (Excludes None and 0 instances)
         # This gets the total # of answered questions.
         answers = [player.answer for player in player_in_all_rounds]
-        total_answered = 0
-        for i in answers:
-            if i != None:
-                if i > 0:
-                    total_answered += 1
+        # total_answered = 0
+        # for i in answers:
+        #     if i != None:
+        #         if i > 0:
+        #             total_answered += 1
+        # self.participant.vars["total_answered"] = total_answered
+        # percent = (correct/total_answered)*100
+        # percent1 = (self.participant.vars["correct_answers"]/total_answered)*100
+        self.participant.vars["percent"] = (self.participant.vars["correct_answers"]/self.participant.vars["total_answered"])*100
+
+
 
         return {
             'player_in_all_rounds': player_in_all_rounds,
             'questions_correct': correct,
             'average': self.player.average,
             'total_answered': total_answered,
+            # 'percent' : percent,
+            # 'percent1' : percent1,
+            'percent' : self.participant.vars["percent"],
         }
 
 #Order in which pages are displayed
