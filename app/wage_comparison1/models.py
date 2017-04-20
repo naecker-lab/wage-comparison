@@ -22,7 +22,8 @@ class Constants(BaseConstants):
     players_per_group = 2
     num_rounds=20
     guess_max = 150
-    gto_seconds = 20
+    guess_min = 1
+    gto_seconds = 30
     overallrounds=True
 
     #Create list of the matrices, and list of the number of zeros for each matrix
@@ -55,7 +56,7 @@ class Subsession(BaseSubsession):
         p.participant.vars['correct_answers'] = 0
         p.participant.vars['total_answered'] = 0
         p.participant.vars['percent'] = 0
-        p.participant.vars['average'] = 0
+        # p.participant.vars['average'] = 0
 
 
 #Defines how groups opterate
@@ -64,20 +65,21 @@ class Group(BaseGroup):
   def average(self):
     players = self.get_players()
     total = 0
+    average=0
     for p in players:
-      total += 100*(p.participant.vars["correct_answers"]/p.participant.vars["total_answered"])
-    average = total/2
+      total += p.participant.vars["total_answered"]
+      average += p.participant.vars["percent"]
     
     for p in players:
       p.total = total
-      p.average=average
+      p.average=average/2
 
 
 
 #Defines attributes for each player
 class Player(BasePlayer):
     #player's answer for each matrix
-    answer = models.PositiveIntegerField(max=Constants.guess_max)
+    answer = models.PositiveIntegerField(max=Constants.guess_max, min=Constants.guess_min)
     #checks if player's answer matches the solution
     is_correct = models.BooleanField()
     #matrix number of zeros solution - will use for Results page
