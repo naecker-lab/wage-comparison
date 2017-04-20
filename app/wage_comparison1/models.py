@@ -67,6 +67,7 @@ class Group(BaseGroup):
     for p in players:
       total += 100*(p.participant.vars["correct_answers"]/p.participant.vars["total_answered"])
     average = total/2
+    
     for p in players:
       p.total = total
       p.average=average
