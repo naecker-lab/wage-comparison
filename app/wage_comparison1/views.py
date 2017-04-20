@@ -66,7 +66,7 @@ class Question(GTOPage):
 
     #check whether player's submitted answer is correct
     def before_next_page(self):
-        #self.participant.vars["total_answered"] += 1
+        # self.participant.vars["total_answered"] += 1
         self.player.check_correct()
         if self.player.is_correct == True:
             self.participant.vars["correct_answers"] +=1
@@ -75,7 +75,8 @@ class ResultsWaitPage(WaitPage):
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
     def after_all_players_arrive(self):
-        self.group.average()
+        # self.group.average()
+        pass
 
 
 #This class sends information to Results.html
@@ -86,38 +87,27 @@ class Results(Page):
 
     def vars_for_template(self):
         player_in_all_rounds = self.player.in_all_rounds()
-        #adds up all the times the player was correct
-
-        # Gets the number of "True" accounts for each player
-        # This gets the number of correct answers made by the player.
-        # plays = [player.is_correct for player in player_in_all_rounds]
-        # correct = 0
-        # for i in plays:
-        #     if i == True:
-        #         correct += 1
+        # adds up all the times the player was correct
 
         # Gets the number of answers above 0 that the player answered. (Excludes None and 0 instances)
         # This gets the total # of answered questions.
         answers = [player.answer for player in player_in_all_rounds]
-        # total_answered = 0
-        # for i in answers:
-        #     if i != None:
-        #         if i > 0:
-        #             total_answered += 1
-        # self.participant.vars["total_answered"] = total_answered
-        # percent = (correct/total_answered)*100
-        # percent1 = (self.participant.vars["correct_answers"]/total_answered)*100
+        total_answered = 0
+        for i in answers:
+            if i != None:
+                if i > 0:
+                    total_answered += 1
+        self.participant.vars["total_answered"] = total_answered
         self.participant.vars["percent"] = (self.participant.vars["correct_answers"]/self.participant.vars["total_answered"])*100
+        self.group.average()
 
 
 
         return {
             'player_in_all_rounds': player_in_all_rounds,
-            'questions_correct': correct,
+            'questions_correct' : self.participant.vars["correct_answers"],
             'average': self.player.average,
-            'total_answered': total_answered,
-            # 'percent' : percent,
-            # 'percent1' : percent1,
+            'total_answered': self.participant.vars["total_answered"],
             'percent' : self.participant.vars["percent"],
         }
 
