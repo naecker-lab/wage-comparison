@@ -16,8 +16,8 @@ class Introduction(Page):
     pass
 
 #This class sends information to the Questions.html page
-class Question(GTOPage):
-    general_timeout=True
+class Question(Page):
+    # general_timeout=True
 
     form_model = models.Player
     form_fields = ['answer']
@@ -100,8 +100,6 @@ class Results(Page):
         self.participant.vars["total_answered"] = total_answered
         self.participant.vars["percent"] = (self.participant.vars["correct_answers"]/self.participant.vars["total_answered"])*100
         self.group.average()
-
-
 
         return {
             'player_in_all_rounds': player_in_all_rounds,

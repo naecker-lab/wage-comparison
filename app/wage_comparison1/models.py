@@ -23,7 +23,7 @@ class Constants(BaseConstants):
     num_rounds=20
     guess_max = 150
     guess_min = 1
-    gto_seconds = 30
+    # gto_seconds = 30
     overallrounds=True
 
     #Create list of the matrices, and list of the number of zeros for each matrix
@@ -69,7 +69,7 @@ class Group(BaseGroup):
     for p in players:
       total += p.participant.vars["total_answered"]
       average += p.participant.vars["percent"]
-    
+
     for p in players:
       p.total = total
       p.average=average/2

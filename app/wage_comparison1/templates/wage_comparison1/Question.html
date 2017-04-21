@@ -12,7 +12,7 @@
 {% block content %}
 
  <!-- Game prompt -->
-  How many zeros are in the table?
+  <!-- How many zeros are in the table?
 <br>
 <div>
 
@@ -22,7 +22,45 @@
 {{num_zero}}
 <br>
 
-</div>
+</div> -->
+
+<script>
+function createMatrix() {
+    // Defines the width and height of the matrix.
+    var width = 5;
+    var height = 5;
+    var random;
+    var matrix = [];
+
+    // Creates the matrix to display.
+    for (i = 0; i < height; i++) {
+        inside_matrix = [];
+        for (j = 0; j < width; j++) {
+            // Returns a random number between 1 and 100.
+            random = Math.floor((Math.random() * 100) + 1);
+            inside_matrix.push(random);
+        }
+        matrix.push(inside_matrix);
+    }
+    // Outputs the matrix array.
+    // Matrix still doesn't display properly. Need to fix formatting.
+    document.getElementById("demo").innerHTML = matrix;
+
+    // For testing!
+    console.log(matrix);
+}
+
+</script>
+</head>
+
+<body>
+
+<h1>JavaScript in Head</h1>
+
+<p id="demo">A Paragraph.</p>
+
+<button type="button" onclick="createMatrix()">Create Matrix</button>
+
 
 
 
@@ -35,5 +73,3 @@ You have answered {{ correct_so_far }} out of {{ questions_so_far }} correctly s
 
 
 {% endblock %}
-
-
