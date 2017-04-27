@@ -25,18 +25,24 @@
 </div> -->
 
 <script>
+
+//
+// document.getElementById("demo").innerHTML = 5+6;
+// document.getElementById("count").innerHTML = 5+6;
+
 var userAnswers = [];
 var realAnswers = [];
+var qnum = 0;
+var correctItems = 0;
 
 function createMatrix() {
     // Defines the width and height of the matrix.
-    var width = 5;
-    var height = 5;
+    var width = 10;
+    var height = 10;
     var random;
     var matrix = [];
     var count = 0;
     var item;
-
 
     // Creates the matrix to display.
     for (i = 0; i < height; i++) {
@@ -53,36 +59,48 @@ function createMatrix() {
             }
             inside_matrix.push(item);
         }
+        inside_matrix = inside_matrix.join(' ');
         matrix.push(inside_matrix + "</br>");
-
     }
-    // Outputs the matrix array.
-    // Matrix still doesn't display properly. Need to fix formatting.
-    document.getElementById("demo").innerHTML = matrix;
-    document.getElementById("count").innerHTML = count;
-
+    // Pushes to the arrays to save user input and correct answers.
     realAnswers.push(count);
     userAnswers.push(document.getElementById("userInput").value);
 
-    // For testing!
-    console.log(realAnswers);
-    console.log(userAnswers);
-}
+    // Augments to the question number.
+    qnum += 1;
 
+    // Checks number of correct answers for display.
+    if (realAnswers[qnum-2] == userAnswers[qnum-1]) {
+        correctItems += 1;
+    }
+
+    // Outputs the matrix array.
+    // Matrix still doesn't display properly. Need to fix formatting.
+    matrix = matrix.join(' ')
+    document.getElementById("demo").innerHTML = matrix;
+    document.getElementById("count").innerHTML = count;
+    document.getElementById("num").innerHTML = qnum;
+    document.getElementById("pastQuestions").innerHTML = qnum - 1;
+    document.getElementById("correctAnswers").innerHTML = correctItems;
+
+    // NEED: Create statements to control for min number needed to input
+    // NEED: To pull it all back to Otree. 
+
+}
 
 </script>
 </head>
 
-<body>
+<body onload = "createMatrix()">
 
-<h1>JavaScript in Head</h1>
+<h1>Question <span id = "num">0</span></h1>
 
-<p id="demo">A Paragraph.</p>
-<p id="count">Count.</p>
+<p id="demo"></p>
+<p id="count"></p>
 <input id="userInput">
-<button type="button" onclick="createMatrix()">Create Matrix</button>
+<button type="button" onclick="createMatrix()">Next</button>
 
-
+<p>You have answered <span id = "correctAnswers"></span> out of <span id = "pastQuestions"></span></p>
 
 
     <!-- {% formfield player.answer with label=player.question %} -->
