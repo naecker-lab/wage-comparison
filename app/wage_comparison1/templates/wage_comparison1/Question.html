@@ -25,6 +25,9 @@
 </div> -->
 
 <script>
+var userAnswers = [];
+var realAnswers = [];
+
 function createMatrix() {
     // Defines the width and height of the matrix.
     var width = 5;
@@ -33,6 +36,7 @@ function createMatrix() {
     var matrix = [];
     var count = 0;
     var item;
+
 
     // Creates the matrix to display.
     for (i = 0; i < height; i++) {
@@ -50,16 +54,21 @@ function createMatrix() {
             inside_matrix.push(item);
         }
         matrix.push(inside_matrix + "</br>");
+
     }
     // Outputs the matrix array.
     // Matrix still doesn't display properly. Need to fix formatting.
     document.getElementById("demo").innerHTML = matrix;
     document.getElementById("count").innerHTML = count;
 
+    realAnswers.push(count);
+    userAnswers.push(document.getElementById("userInput").value);
+
     // For testing!
-    console.log(matrix);
-    console.log(count);
+    console.log(realAnswers);
+    console.log(userAnswers);
 }
+
 
 </script>
 </head>
@@ -70,16 +79,15 @@ function createMatrix() {
 
 <p id="demo">A Paragraph.</p>
 <p id="count">Count.</p>
-
+<input id="userInput">
 <button type="button" onclick="createMatrix()">Create Matrix</button>
 
 
 
 
+    <!-- {% formfield player.answer with label=player.question %} -->
 
-    {% formfield player.answer with label=player.question %}
-
-    {% next_button %}
+    <!-- {% next_button %} -->
 
 You have answered {{ correct_so_far }} out of {{ questions_so_far }} correctly so far.
 
