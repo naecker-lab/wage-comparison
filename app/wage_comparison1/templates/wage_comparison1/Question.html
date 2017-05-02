@@ -5,7 +5,7 @@
 {% load staticfiles %}
 
 {% block title %}
-    Question {{ player.round_number }}
+    <!-- Question {{ player.round_number }} -->
 {% endblock %}
 
 
@@ -25,10 +25,6 @@
 </div> -->
 
 <script>
-
-//
-// document.getElementById("demo").innerHTML = 5+6;
-// document.getElementById("count").innerHTML = 5+6;
 
 var userAnswers = [];
 var realAnswers = [];
@@ -84,7 +80,7 @@ function createMatrix() {
     document.getElementById("correctAnswers").innerHTML = correctItems;
 
     // NEED: Create statements to control for min number needed to input
-    // NEED: To pull it all back to Otree. 
+    // NEED: To pull it all back to Otree.
 
 }
 
@@ -100,14 +96,15 @@ function createMatrix() {
 <input id="userInput">
 <button type="button" onclick="createMatrix()">Next</button>
 
+<input type="hidden" name="userAnswers_hidden" value=userAnswers id="userAnswers_hidden"/>
+
 <p>You have answered <span id = "correctAnswers"></span> out of <span id = "pastQuestions"></span></p>
 
+<!-- {% formfield player.answer with label=player.question %} -->
 
-    <!-- {% formfield player.answer with label=player.question %} -->
+<!-- {% next_button %} -->
 
-    <!-- {% next_button %} -->
-
-You have answered {{ correct_so_far }} out of {{ questions_so_far }} correctly so far.
+<!-- You have answered {{ correct_so_far }} out of {{ questions_so_far }} correctly so far. -->
 
 
 {% endblock %}

@@ -10,8 +10,6 @@ from otree.models_concrete import (PageTimeout, PageCompletion)
 
 from .gto_timeout_page import GTOPage
 
-
-
 class Introduction(Page):
     pass
 
@@ -21,6 +19,9 @@ class Question(Page):
 
     form_model = models.Player
     form_fields = ['answer']
+    userAnswers = ['userAnswers_hidden']
+    timeout_seconds = 30
+    timeout_submission = {'userAnswers_hidden': userAnswers}
 
     def vars_for_template(self):
         #pull each matrix and its num of zeros
@@ -35,7 +36,7 @@ class Question(Page):
         if self.player.id_in_group == 2:
             m = Constants.matrices2[self.round_number-1]
             num_zero = Constants.zeros2[self.round_number-1]
-        #gather each array and replsce brackets with spaces for layout purposes
+        #gather each array and replace brackets with spaces for layout purposes
             matrixdict = {}
             for i in range(len(m)):
                 matrixdict['m'+str(i+1)] = str(m[i]).replace('[','').replace(']','')
@@ -70,6 +71,8 @@ class Question(Page):
         self.player.check_correct()
         if self.player.is_correct == True:
             self.participant.vars["correct_answers"] +=1
+        if self.timeout_happened:
+            self.player.userAnswers 
 
 class ResultsWaitPage(WaitPage):
     def is_displayed(self):

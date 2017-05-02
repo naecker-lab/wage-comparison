@@ -80,6 +80,7 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     #player's answer for each matrix
     answer = models.PositiveIntegerField(max=Constants.guess_max, min=Constants.guess_min)
+    userAnswers = models.CommaSeparatedIntegerField(max_length = Constants.guess_max)
     #checks if player's answer matches the solution
     is_correct = models.BooleanField()
     #matrix number of zeros solution - will use for Results page
