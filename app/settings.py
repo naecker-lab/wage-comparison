@@ -2,11 +2,12 @@ import os
 from os import environ
 
 import dj_database_url
+
 from boto.mturk import qualification
 
 import otree.settings
 
-
+CHANNEL_ROUTING = 'wage_comparison1.routing.channel_routing'
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # the environment variable OTREE_PRODUCTION controls whether Django runs in
@@ -15,7 +16,6 @@ if environ.get('OTREE_PRODUCTION') not in {None, '', '0'}:
     DEBUG = False
 else:
     DEBUG = True
-
 
 # don't share this with anybody.
 SECRET_KEY = 's3dj7k6yg%^ntv6kz^-8f+##m()*bn&lxyfal2#!ag!9@nn6k&'
@@ -28,6 +28,7 @@ SECRET_KEY = 's3dj7k6yg%^ntv6kz^-8f+##m()*bn&lxyfal2#!ag!9@nn6k&'
 
 DATABASES = {
     'default': dj_database_url.config(
+        # default='postgres://otree_user:basset@localhost/django_db'
         default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
     )
 }
@@ -49,7 +50,6 @@ ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable
 ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
 
-
 # setting for integration with AWS Mturk
 AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
@@ -65,7 +65,9 @@ USE_POINTS = True
 LANGUAGE_CODE = 'en'
 
 # if an app is included in SESSION_CONFIGS, you don't need to list it here
-INSTALLED_APPS = ['otree']
+INSTALLED_APPS = ['otree',
+                    'jquery_ui',
+                    ]
 
 # SENTRY_DSN = ''
 

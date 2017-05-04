@@ -2,7 +2,6 @@
 
 
 {% load staticfiles otree_tags %}
-{% load staticfiles %}
 
 {% block title %}
 	Round 1
@@ -18,26 +17,33 @@
   <tr >
 
   <td id='seq'>  </td>
-  </tr>
-  </tbody>
-  </table>
-
+    <td width='150px'>
 
 
    <input class="form-control" id="seq" type="number">
 
 
+    </td>
+    <td width='150px'>
 
 
   <button type='button' id='answerbutton' class="otree-next-button btn btn-primary next-button">Next</button>
-</div>
 
+
+    </td>
+
+</tr>
+
+</tbody>
+</table>
+  </div>
 
 {% endblock %}
 
 
 {% block scripts %}
-
+<script type='text/javascript' src='{% static 'js/jquery-ui.js' %}'></script>
+<link rel='stylesheet' type='text/css' href='{% static 'css/jquery-ui/smoothness/jquery-ui.css' %}' />
 
 <script>
   window.onload = function() {
@@ -114,6 +120,3 @@
   };
 </script>
 {% endblock %}
-
-
-

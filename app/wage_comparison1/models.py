@@ -2,7 +2,6 @@ from otree.api import (
     models, widgets, BaseConstants, BaseSubsession, BaseGroup, BasePlayer,
     Currency as c, currency_range
 )
-import numpy as np
 import random
 import json
 from django import forms
@@ -21,7 +20,6 @@ See the comment below about how to randomize the order of pages.
 #Defines attributes of game that remain constant throughout game
 class Constants(BaseConstants):
     name_in_url = 'counting-zeros1'
-    #This is a 1-player game, so there are no groups of players
     players_per_group = 2
     num_rounds=1
     seqsize = 10
@@ -53,12 +51,12 @@ class Constants(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-  def before_session_starts(self):
+    def before_session_starts(self):
     # if self.round_number == 1:
     #   for p in self.get_players():
     #     p.participant.vars['correct_answers'] = 0
-    for p in self.get_players():
-      p.seqdict=json.dumps({})
+        for p in self.get_players():
+            p.seqdict=json.dumps({})
 
 #Defines how groups opterate
 #Since we do not have groups, class is not used
@@ -72,7 +70,7 @@ class Group(BaseGroup):
   #   for p in players:
   #       p.total = total
   #       p.average = average
-  pass
+    pass
 
 
 
@@ -87,9 +85,9 @@ class Player(BasePlayer):
     # question_correct = models.BooleanField()
     # average = models.FloatField()
     # total = models.FloatField()
-    seqdict=models.TextField()
-    seqcounter=models.IntegerField(initial=0)
-    sumcorrect=models.IntegerField(initial=0)
+    seqdict = models.TextField()
+    seqcounter = models.IntegerField(initial=0)
+    sumcorrect = models.IntegerField(initial=0)
 
 
     #function that checks if player's answer is correct

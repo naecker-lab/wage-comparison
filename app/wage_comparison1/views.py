@@ -5,22 +5,21 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 import numpy as np
 import sys
+import time
+from otree.models_concrete import (PageTimeout, PageCompletion)
 import random
 import collections
-import codecs, json 
+import json 
 
 def get_seq(size=Constants.seqsize, threshold=Constants.seqthreshold):
-    p = np.random.uniform(0.3,0.7)
-    seq1 = np.random.binomial(1, p, size=(Constants.seqsize, 2))
-    seq = seq1.tolist() # nested lists with same data, indices
-    file_path = "path.json" ## your path variable
-    json.dump(seq, codecs.open(file_path, 'w', encoding='utf-8'), separators=(',', ':'), sort_keys=True, indent=4) ### this saves the array in .json format
-
-
-    # seq = seq.tolist()
-    # file_path="/path.json"
-    # json.dump(seq, codecs.open(file_path, 'w', encoding='utf-8'), separators=(',', ':'), sort_keys=True, indent=4)
-    # json.dumps(seq.tolist())
+    # p = np.random.uniform(0.3,0.7)
+    # seq1 = np.random.binomial(1, p, size=(Constants.seqsize, 1))
+    # seq = seq1.tolist() # nested lists with same data, indices
+    # file_path = "path.json" ## your path variable
+    # json.dump(seq, codecs.open(file_path, 'w', encoding='utf-8'), separators=(',', ':'), sort_keys=True, indent=4) ### this saves the array in .json format
+    seq = [random.random() for i in range(size)]
+    seq = [0 if i < threshold else 1 for i in seq]
+    
     return seq
 
 def get_seqname(id):
@@ -30,24 +29,22 @@ def update_seq_dict(seqdict, seq_id):
     seqname = get_seqname(seq_id)
     if seqname not in seqdict:
         seq = get_seq()
-        corranswer = Constants.seqsize*2 - np.count_nonzero(seq)
+        corranswer = Constants.seqsize - sum(seq)
         seqdict[seqname] = {'seq_to_show': seq,
                             'corranswer': None,
                             'answer': None,
                             'name': str(seqname)}
     return seqdict
 
-class Introduction(Page):
-    pass
 
 #This class sends information to the Questions.html page
 class Question(Page):
     # form_model = models.Player
     #form_fields = ['answer']
-    timeout_seconds = 100
+    timeout_seconds = 20
 
 
-    def vars_for_template(self):
+    # def vars_for_template(self):
         #pull each matrix and its num of zeros
         #from the matrices list corresponding to the round number
         # if self.player.id_in_group == 1:
@@ -71,6 +68,7 @@ class Question(Page):
 
 
 
+    def vars_for_template(self):
         seqdict = json.loads(self.player.seqdict)
         seqdict = update_seq_dict(seqdict, self.player.seqcounter)
         self.player.seqdict = json.dumps(seqdict)
@@ -113,10 +111,8 @@ class Question(Page):
 #This class sends information to Results.html
 class Results(Page):
     ...
-    # def is_displayed(self):
-    #     return self.round_number == Constants.num_rounds
 
-    def vars_for_template(self):
+    # def vars_for_template(self):
         # player_in_all_rounds = self.player.in_all_rounds()
         # #adds up all the times the player was correct
         # correct = sum([player.is_correct for player in player_in_all_rounds])
@@ -126,6 +122,7 @@ class Results(Page):
         #     'questions_correct': correct,
         #     'average': self.player.average
         # }
+    def vars_for_template(self):
         seqdict = json.loads(self.player.seqdict)
         keys = [k for k, v in seqdict.items() if not v['answer']]
         for x in keys:
@@ -140,9 +137,7 @@ class Results(Page):
             Constants.price_per_correct_answer
         return {'seq': seqdict}
 
-#Order in which pages are displayed
 page_sequence = [
     Question,
-    # ResultsWaitPage,
     Results,
 ]
