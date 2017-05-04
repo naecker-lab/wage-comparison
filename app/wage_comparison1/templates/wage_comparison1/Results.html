@@ -2,37 +2,66 @@
 {% load staticfiles otree_tags %}
 
 {% block title %}
-    Results
+   Results
 {% endblock %}
 
 {% block content %}
 
-    <p>
-        You answered {{ questions_correct }} out of {{ Constants.num_rounds }}
-        questions correctly.
-    </p>
+<div class="panel-body">
+<table class="table table-hover table-striped table-responsive table-bordered">
+  <thead>
+    <th>Sequence</th>
+    <th>Your answer:</th>
+    <th>Correct answer:</th>
+    <th></th>
+  </thead>
+<tbody>
+  {% for key, value in seq.items %}
 
-    <p>
-        The average correct is {{ player.average }} out of {{ Constants.num_rounds }}
-    </p>
-
-    <table class="table">
-        <tr>
-            <th>Correct Answer</th>
-            <th>Your Answer</th>
-            <th>Answered Correctly?</th>
-        </tr>
-        {% for p in player_in_all_rounds %}
-            <tr>
-                <!-- <td>{{ p.num_zero }}</td> -->
-                <td>{{ p.solution }}
-                <td>{{ p.answer }}</td>
-                <td>{{ p.is_correct }}</td>
-
-            </tr>
-        {% endfor %}
-    </table>
+  <tr >
+  <td > {{value.seq_to_show}} </td>
+    <td>
+{{value.answer}}
 
 
-    {% next_button %}
+    </td>
+    <td >
+{{value.corranswer}}
+    </td>
+<td>
+
+  {% if value.iscorrect %}
+  <span class="glyphicon glyphicon-ok " aria-hidden="true"></span>
+  {% else %}
+  <span class="glyphicon glyphicon-remove " aria-hidden="true"></span>
+  {% endif %}
+</td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+  </div>
+
+  <ul class="list-group">
+  <li class="list-group-item list-group-item-success">Number of correct answers:
+    <span class="badge badge-primary badge-pill">{{player.sumcorrect}}</span></li>
+  <li class="list-group-item list-group-item-warning">Your payoff:
+    <span class="badge badge-pill badge-primary ">{{player.payoff}}</span></li>
+</ul>
+
+{% next_button %}
+{% endblock %}
+
+
+{% block styles %}
+<style>
+.glyphicon-ok{color:green;}
+.glyphicon-remove{color:red;}
+.badge-primary {background-color:blue;}
+
+</style>
+{% endblock %}
+
+{% block scripts %}
 {% endblock %}
