@@ -33,6 +33,7 @@ DATABASES = {
     )
 }
 
+
 # AUTH_LEVEL:
 # this setting controls which parts of your site are freely accessible,
 # and which are password protected:

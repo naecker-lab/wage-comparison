@@ -41,7 +41,7 @@ def update_seq_dict(seqdict, seq_id):
 class Question(Page):
     form_model = models.Player
     #form_fields = ['answer']
-    timeout_seconds = 20
+    timeout_seconds = 30
     form_fields = ['contribution']
 
 

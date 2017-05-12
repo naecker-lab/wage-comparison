@@ -2,38 +2,156 @@
 
 
 {% load staticfiles otree_tags %}
-{% load staticfiles %}
 
 {% block title %}
-    Question {{ player.round_number }} of {{ Constants.num_rounds }}
+	Round 1
+    <!--Question {{ player.round_number }} of {{ Constants.num_rounds }} -->
 {% endblock %}
 
 
 {% block content %}
+<div class="panel-body">
+<table class="table table-hover table-striped table-responsive table-bordered">
+<tbody>
 
- <!-- Game prompt -->
-  How many zeros are in the table?
+  <tr >
+
+  <td id='seq'>  </td>
+    <td width='150px'>
+
+
+   <input class="form-control" id="seq" type="number">
+
+
+    </td>
+    <td width='150px'>
+
+
+  <button type='button' id='answerbutton' class="otree-next-button btn btn-primary next-button">Next</button>
+
+
+    </td>
+
+</tr>
+
+</tbody>
+</table>
+<div> You answered <span id = "answers">0</span> out of <span id = "total">0</span> correct.
 <br>
-<div>
-
-{{m1}} <br> {{m2}} <br> {{m3}} <br> {{m4}} <br> {{m5}} <br>
-{{m6}} <br> {{m7}} <br> {{m8}} <br> {{m9}} <br> {{m10}} <br>
-
-{{num_zero}}
-<br>
-
-</div>
-
-
-
-
-    {% formfield player.answer with label=player.question %}
-
-    {% next_button %}
-
-You have answered {{ correct_so_far }} out of {{ questions_so_far }} correctly so far.
+Your payoff for each question correct is {{player.contribution}}</div>
 
 
 {% endblock %}
 
 
+{% block scripts %}
+<script type='text/javascript' src='{% static 'js/jquery-ui.js' %}'></script>
+<link rel='stylesheet' type='text/css' href='{% static 'css/jquery-ui/smoothness/jquery-ui.css' %}' />
+
+<script>
+    var answerarray = []; // Used to collect all of the answers
+    var initialzeroes = 0; // Used to count the first zero (seq on load)
+  window.onload = function() {
+    var seq_on_load = {{seq|safe}};
+    var seq_name = seq_on_load.name;
+    $('#seq').html(seq_on_load.seq_to_show);
+    for (i in seq_on_load.seq_to_show) {
+        if (seq_on_load.seq_to_show[i] == 0) {
+            initialzeroes += 1;
+        }
+    }
+    answerarray.push(initialzeroes);
+    console.log(seq_on_load);
+    {# blocking submitting form by hitting enter #}
+    $(window).keydown(function(event){
+      if(event.keyCode == 13) {
+        event.preventDefault();
+        return false;
+      }
+    });
+    // Create a new WebSocket.
+    // we use wss or ws depending on http/https protocol used by server
+  var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+  {# the name of the channel corresponds to the name of the channel from routing.py #}
+  var socket = new WebSocket(ws_scheme + '://' + window.location.host + "/qchannel/");
+
+
+  // var answer_input = document.getElementById('seq');
+  $( "#answerbutton" ).click(function() {
+   buttClick();
+
+});
+   buttClick = function(){
+        curanswer = $('input#seq').val()
+        var msg = {
+            playerpk: {{player.id}},
+            subsession: {{subsession.id}},
+            session: {{session.id}},
+            answer: curanswer,
+            seq_name: seq_name,
+        };
+
+        // if socket is open then we send a message with current player,session id and
+        // the content of the corresponding input box
+        if(socket.readyState === socket.OPEN){
+            socket.send(JSON.stringify(msg));
+        }
+   };
+
+
+    // Handle any errors that occur.
+    socket.onerror = function(error) {
+    //   console.log('WebSocket Error: ' + error);
+    };
+
+    // Show a connected message when the WebSocket is opened.
+    socket.onopen = function(event) {
+    //   console.log('connected to oTree');
+      var msg = {
+          playerpk: {{player.id}},
+          subsession: {{subsession.id}},
+          session: {{session.id}},
+      };
+          // socket.send(JSON.stringify(msg));
+    };
+    var zeroes = 0;
+    var answerctr = 0;
+    var totalctr = 0;
+
+
+    // Handle messages sent by the server.
+    socket.onmessage = function(event) {
+    //   console.log(event);
+      var obj = jQuery.parseJSON(event.data);
+      var seq_to_show = obj.newseq.seq_to_show;
+      seq_name = obj.newseq.name;
+      $('#seq').html(seq_to_show);
+      $('input#seq').val('');
+      // To count the correct number of zeroes per sequence loaded.
+      for (i in seq_to_show) {
+          if (seq_to_show[i] == 0) {
+              zeroes += 1;
+          }
+      }
+      answerarray.push(zeroes); // Add to correct answer array
+      // Checks if answer is same as user input
+      if(answerarray[totalctr] == curanswer) {
+          answerctr +=1;
+      }
+      // To display total number of questions already asked
+      totalctr +=1;
+      // Reset back so it doesn't double count the previous number of 0s.
+      zeroes = 0;
+      // For display
+      $('#answers').html(answerctr);
+      $('#total').html(totalctr);
+
+    };
+
+    // Show a disconnected message when the WebSocket is closed.
+    socket.onclose = function(event) {
+    //   console.log('disconnected from oTree');
+    };
+  };
+</script>
+{% endblock %}
