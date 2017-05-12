@@ -25,6 +25,10 @@ class Constants(BaseConstants):
     seqsize = 10
     seqthreshold=0.5
     price_per_correct_answer = 10
+    endowment = c(0)
+    rand2 = random.sample(set([0.5, 0.1]),1)
+    rand2 = rand2[0]
+    rand1 = 0.6 - rand2
     #guess_max = 150
 
     #Create list of the matrices, and list of the number of zeros for each matrix
@@ -57,10 +61,19 @@ class Subsession(BaseSubsession):
     #     p.participant.vars['correct_answers'] = 0
         for p in self.get_players():
             p.seqdict=json.dumps({})
+    # def set_currency(self):
+    #     rand1 = random.sample(set([0.1, 0.5]),1)
+    #     rand2 = 0.6 - rand1
+    #     if self.player.id_in_group == 1:
+    #         self.player.payoff = rand1
+    #     if self.player.id_in_group==2:
+    #         self.player.payoff = rand2
 
 #Defines how groups opterate
 #Since we do not have groups, class is not used
 class Group(BaseGroup):
+    # total_payoff = models.CurrencyField()
+    # indiv_payoff = models.CurrencyField()
   # def average(self):
   #   players = self.get_players()
   #   total = 0
@@ -70,6 +83,17 @@ class Group(BaseGroup):
   #   for p in players:
   #       p.total = total
   #       p.average = average
+    # def set_payoffs(self):
+        # rand1 = random.sample(set([0.1, 0.5]),1)
+        # rand1 = rand1[0]
+        # rand2 = 0.6 - rand1
+        # self.total_payoff = sum([p.contribution for p in self.get_players()])
+        # if self.id_in_group == 1:
+        #     self.indiv_payoff = rand1
+        # if self.id_in_group==2:
+        #     self.indiv_payoff = rand2
+        # for p in self.get_players():
+        #     p.payoff = self.indiv_payoff
     pass
 
 
@@ -88,6 +112,16 @@ class Player(BasePlayer):
     seqdict = models.TextField()
     seqcounter = models.IntegerField(initial=0)
     sumcorrect = models.IntegerField(initial=0)
+    contribution = models.CurrencyField()
+    total_payoff = models.CurrencyField()
+    indiv_payoff = models.CurrencyField()
+
+    def set_payoffs(self):
+        if self.id_in_group==1:
+            self.contribution = Constants.rand1
+        if self.id_in_group==2:
+            self.contribution = Constants.rand2
+
 
 
     #function that checks if player's answer is correct
