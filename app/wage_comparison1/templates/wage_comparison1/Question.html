@@ -58,8 +58,7 @@
             initialzeroes += 1;
         }
     }
-    answerarray.push(initialzeroes);
-    console.log(seq_on_load);
+    answerarray.push(initialzeroes); // Pushes the # of arrays in the first ever sequence onto the answer array.
     {# blocking submitting form by hitting enter #}
     $(window).keydown(function(event){
       if(event.keyCode == 13) {
@@ -112,6 +111,7 @@
       };
           // socket.send(JSON.stringify(msg));
     };
+	// Initializes counter variables to be used.
     var zeroes = 0;
     var answerctr = 0;
     var totalctr = 0;
@@ -119,7 +119,6 @@
 
     // Handle messages sent by the server.
     socket.onmessage = function(event) {
-    //   console.log(event);
       var obj = jQuery.parseJSON(event.data);
       var seq_to_show = obj.newseq.seq_to_show;
       seq_name = obj.newseq.name;
@@ -131,8 +130,8 @@
               zeroes += 1;
           }
       }
-      answerarray.push(zeroes); // Add to correct answer array
-      // Checks if answer is same as user input
+      answerarray.push(zeroes); // Add number of zeroes in each sequence to the correct answerarray.
+      // Checks if answer is same as user input. answerctr is used to display the running correct.
       if(answerarray[totalctr] == curanswer) {
           answerctr +=1;
       }
@@ -140,7 +139,7 @@
       totalctr +=1;
       // Reset back so it doesn't double count the previous number of 0s.
       zeroes = 0;
-      // For display
+      // Used for display.
       $('#answers').html(answerctr);
       $('#total').html(totalctr);
 
@@ -148,7 +147,6 @@
 
     // Show a disconnected message when the WebSocket is closed.
     socket.onclose = function(event) {
-    //   console.log('disconnected from oTree');
     };
   };
 </script>
