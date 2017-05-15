@@ -39,9 +39,10 @@ def update_seq_dict(seqdict, seq_id):
 
 #This class sends information to the Questions.html page
 class Question(Page):
-    # form_model = models.Player
+    form_model = models.Player
     #form_fields = ['answer']
     timeout_seconds = 20
+    form_fields = ['contribution']
 
 
     # def vars_for_template(self):
@@ -69,6 +70,7 @@ class Question(Page):
 
 
     def vars_for_template(self):
+        self.player.set_payoffs()
         seqdict = json.loads(self.player.seqdict)
         seqdict = update_seq_dict(seqdict, self.player.seqcounter)
         self.player.seqdict = json.dumps(seqdict)
@@ -106,7 +108,9 @@ class Question(Page):
 #     def after_all_players_arrive(self):
 #         self.group.average()
 
-
+# class ResultsWaitPage(WaitPage):
+#     def after_all_players_arrive(self):
+#         self.group.set_payoffs()
 
 #This class sends information to Results.html
 class Results(Page):
@@ -121,8 +125,11 @@ class Results(Page):
         #     'player_in_all_rounds': player_in_all_rounds,
         #     'questions_correct': correct,
         #     'average': self.player.average
+
         # }
+
     def vars_for_template(self):
+        self.player.set_payoffs()
         seqdict = json.loads(self.player.seqdict)
         keys = [k for k, v in seqdict.items() if not v['answer']]
         for x in keys:
@@ -134,7 +141,7 @@ class Results(Page):
         self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
         
         self.player.payoff = self.player.sumcorrect * \
-            Constants.price_per_correct_answer
+            self.player.contribution
         return {'seq': seqdict}
 
 page_sequence = [
