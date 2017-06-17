@@ -66,9 +66,7 @@ USE_POINTS = False
 LANGUAGE_CODE = 'en'
 
 # if an app is included in SESSION_CONFIGS, you don't need to list it here
-INSTALLED_APPS = ['otree',
-                    'jquery_ui',
-                    ]
+INSTALLED_APPS = ['otree']
 
 # SENTRY_DSN = ''
 
