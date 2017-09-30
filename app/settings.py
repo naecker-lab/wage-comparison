@@ -7,7 +7,7 @@ from boto.mturk import qualification
 
 import otree.settings
 
-CHANNEL_ROUTING = 'wage_comparison1.routing.channel_routing'
+CHANNEL_ROUTING = 'wage_comparison.routing.channel_routing'
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # the environment variable OTREE_PRODUCTION controls whether Django runs in
@@ -144,7 +144,7 @@ SESSION_CONFIGS = [
         'name': 'wage_comparison',
         'display_name': "Wage Comparison",
         'num_demo_participants': 2,
-        'app_sequence': ['wage_comparison1', 'wage_comparison2'],
+        'app_sequence': ['wage_comparison',],
     },
    
 
