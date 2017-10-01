@@ -138,6 +138,11 @@ SESSION_CONFIG_DEFAULTS = {
     'mturk_hit_settings': mturk_hit_settings,
 }
 
+# three versions:
+# 1. treatment 1: subjects learn the average wage i.e. payment per correct answer, of everyone else in their group
+# 2. treatment 2: subjects learn average earnings of everyone else in their group
+# 3. control
+
 SESSION_CONFIGS = [
    
     {	
@@ -146,7 +151,20 @@ SESSION_CONFIGS = [
         'num_demo_participants': 2,
         'app_sequence': ['wage_comparison',],
     },
-   
+    # {
+    #     'name': 'wage_comparison_wage',
+    #     'display_name': 'Wage Comparison Wage Treatment',
+    #     'num_demo_participants':2,
+    #     'app_sequence': ['wage_comparison'],
+    #     'treatment': 'wage',
+    # }
+    # {
+    #     'name': 'wage_comparison_earnings',
+    #     'display_name': 'Wage Comparison Earnings Treatment',
+    #     'num_demo_participants':2,
+    #     'app_sequence': ['wage_comparison'],
+    #     'treatment': 'earnings',
+    # }
 
 ]
 

@@ -29,6 +29,7 @@ class Constants(BaseConstants):
     rand2 = random.sample(set([0.5, 0.1]),1)
     rand2 = rand2[0]
     rand1 = 0.6 - rand2
+    # instructions_template = 'wage_comparison/Instructions.html'
     #guess_max = 150
 
     #Create list of the matrices, and list of the number of zeros for each matrix
@@ -61,6 +62,13 @@ class Subsession(BaseSubsession):
     #     p.participant.vars['correct_answers'] = 0
         for p in self.get_players():
             p.seqdict=json.dumps({})
+
+            #assigns players to different treaments
+            # for p in self.get_players():
+            #     if 'treatment' in self.session.config:
+            #         p.treat = self.session.config['treatment']
+            #     else:
+            #         p.treat=random.choice(['wage', 'earnings'])
     # def set_currency(self):
     #     rand1 = random.sample(set([0.1, 0.5]),1)
     #     rand2 = 0.6 - rand1

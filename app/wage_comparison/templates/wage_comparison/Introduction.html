@@ -1,0 +1,29 @@
+
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+{% load staticfiles %}
+
+{% block title %}
+    Instructions
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}
+
+{% block content %}
+<!-- Game prompt -->
+
+
+There will be two rounds, each with a series of 0's and 1's. In each series you need to count how many 0's appear.
+<br><br>
+
+For each series you count correctly, you will receive {{x}}.
+<br><br>
+
+At the end of the first round, you will be given wage information about the other participants.
+<br>
+
+    {% next_button %}
+
+{% endblock %}
