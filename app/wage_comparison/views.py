@@ -38,6 +38,7 @@ def update_seq_dict(seqdict, seq_id):
 
 
 class Introduction(Page):
+    # form_fields=['contribution']
     """Description of the game: How to play and returns expected"""
 
     def vars_for_template(self):
@@ -47,9 +48,9 @@ class Introduction(Page):
     def is_displayed(self):
         return self.round_number==1
 
-    def vars_for_template(self):
-        x = self.player.contribution
-        return {'x': x}
+    # def vars_for_template(self):
+    #     x = self.player.contribution
+    #     return {'x': x}
 
 
 #This class sends information to the Questions.html page
@@ -85,7 +86,7 @@ class Question(Page):
 
 
     def vars_for_template(self):
-        # self.player.set_payoffs()
+        self.player.set_payoffs()
         seqdict = json.loads(self.player.seqdict)
         seqdict = update_seq_dict(seqdict, self.player.seqcounter)
         self.player.seqdict = json.dumps(seqdict)
