@@ -38,9 +38,18 @@
 
 </tbody>
 </table>
+
 <div> You answered <span id = "answers">0</span> out of <span id = "total">0</span> correct.
 <br>
-Your payoff for each question correct is {{player.contribution}}</div>
+Your payoff for each question correct is {{player.contribution}}
+<div> correct answer is <span id="answer"> </span></div>
+  <p id="demo"></p>
+  
+<!-- <p id="insert"></p> -->
+
+<br>
+</div>
+
 
 
 {% endblock %}
@@ -137,16 +146,20 @@ Your payoff for each question correct is {{player.contribution}}</div>
       }
       answerarray.push(zeroes); // Add to correct answer array
       // Checks if answer is same as user input
+      // document.getElementById("demo").innerHTML=answerarray[totalctr];
       if(answerarray[totalctr] == curanswer) {
           answerctr +=1;
       }
       // To display total number of questions already asked
+
+
       totalctr +=1;
       // Reset back so it doesn't double count the previous number of 0s.
       zeroes = 0;
       // For display
       $('#answers').html(answerctr);
       $('#total').html(totalctr);
+      $('#answer').html(answerarray[totalctr]);
 
     };
 
@@ -154,6 +167,10 @@ Your payoff for each question correct is {{player.contribution}}</div>
     socket.onclose = function(event) {
     //   console.log('disconnected from oTree');
     };
+    // document.getElementById("insert").innerHTML=curanswer;
+
+    document.getElementById("demo").innerHTML=answerarray[totalctr];
+    
   };
 </script>
 {% endblock %}

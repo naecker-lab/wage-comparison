@@ -22,7 +22,7 @@ class Constants(BaseConstants):
     name_in_url = 'counting-zeros1'
     players_per_group = 2
     num_rounds=2
-    seqsize = 10
+    seqsize = 100
     seqthreshold=0.5
     price_per_correct_answer = 10
     endowment = c(0)
