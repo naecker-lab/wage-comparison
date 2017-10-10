@@ -4,12 +4,14 @@
 {% load staticfiles otree_tags %}
 
 {% block title %}
-	Round 1
+	Round {{player.round_number}}
     <!--Question {{ player.round_number }} of {{ Constants.num_rounds }} -->
+  
 {% endblock %}
 
 
 {% block content %}
+<p>Count the number of 0's that appear.</p>
 <div class="panel-body">
 <table class="table table-hover table-striped table-responsive table-bordered">
 <tbody>
