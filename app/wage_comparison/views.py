@@ -124,14 +124,46 @@ class Question(Page):
 #     def after_all_players_arrive(self):
 #         self.group.average()
 
-# class ResultsWaitPage(WaitPage):
-#     def after_all_players_arrive(self):
-#         self.group.set_payoffs()
+class ResultsWaitPage(WaitPage):
+	def vars_for_template(self):
+		self.player.set_payoffs()
+		seqdict = json.loads(self.player.seqdict)
+		keys = [k for k, v in seqdict.items() if not v['answer']]
+		for x in keys:
+			del seqdict[x]
+		for key, value in seqdict.items():
+			seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
+			seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
+			seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
+		self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
+		self.player.payoff = self.player.sumcorrect * \
+			self.player.contribution
+		return {'seq': seqdict}
+	def after_all_players_arrive(self):
+		self.group.set_payoffs()
+
+
+# class Information_Wage(Page):
+# 	def vars_for_template(self):
+# 		x = "hello"
+# 		return {'x': x}
+# 	def is_displayed(self):
+# 		return self.player.treat=='wage'
+
+
+# class Information_Earnings(Page):
+# 	def vars_for_template(self):
+# 		x = "hello"
+# 		return {'x': x}
+# 	def is_displayed(self):
+# 		return self.player.treat=='earnings'
 
 #This class sends information to Results.html
 class Results(Page):
     ...
-
+    def vars_for_templates(self):
+    	return{'seq': self.player.seqdict,
+    	'cumulative_payoff': self.player.cumulative_payoff}
     # def vars_for_template(self):
         # player_in_all_rounds = self.player.in_all_rounds()
         # #adds up all the times the player was correct
@@ -158,10 +190,16 @@ class Results(Page):
         
         self.player.payoff = self.player.sumcorrect * \
             self.player.contribution
-        return {'seq': seqdict}
+        
+        return {'seq': seqdict,
+        'avg_payoff': self.avg_payoff}
 
 page_sequence = [
     Introduction,
     Question,
+    ResultsWaitPage,
+    # Information_Earnings,
+    # Information_Wage,
     Results,
+
 ]

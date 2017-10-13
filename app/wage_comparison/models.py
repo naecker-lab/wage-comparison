@@ -1,5 +1,5 @@
 from otree.api import (
-    models, widgets, BaseConstants, BaseSubsession, BaseGroup, BasePlayer,
+    models, widgets, BaseConstants, BaseSubsession, BaseGroup, BasePlayer, 
     Currency as c, currency_range
 )
 import random
@@ -56,12 +56,30 @@ class Constants(BaseConstants):
 
 
 class Subsession(BaseSubsession):
+
     def before_session_starts(self):
     # if self.round_number == 1:
     #   for p in self.get_players():
     #     p.participant.vars['correct_answers'] = 0
         for p in self.get_players():
+
             p.seqdict=json.dumps({})
+            
+            for p in self.get_players():
+                if 'treatment' in self.session.config:
+                    p.treat = self.session.config['treatment']
+
+
+        # for g in self.get_groups():
+        #     g.treatment=random.choice(['control','wage'])
+        # if self.round_number==1:
+        #     for p in self.get_players():
+        #         p.participant.vars['treatment'] = random.choice(['control','wage'])
+        # if self.round_number==1:
+        #     for g in self.get_groups():
+        #         p1=g.get_player_by_id(1)
+        #         p1.participant.vars['treatment'] = random.choice(['control','wage'])
+        
 
             #assigns players to different treaments
             # for p in self.get_players():
@@ -80,6 +98,15 @@ class Subsession(BaseSubsession):
 #Defines how groups opterate
 #Since we do not have groups, class is not used
 class Group(BaseGroup):
+    treatment = models.CharField()
+    avg_earnings = models.CurrencyField()
+    def set_payoffs(self):
+        players = self.get_players()
+        
+        avg_earnings = sum([p.payoff for p in self.player.in_all_rounds()])/Constants.players_per_group
+
+        for p in players:
+            p.avg_earnings = avg_earnings
     # total_payoff = models.CurrencyField()
     # indiv_payoff = models.CurrencyField()
   # def average(self):
@@ -102,7 +129,8 @@ class Group(BaseGroup):
         #     self.indiv_payoff = rand2
         # for p in self.get_players():
         #     p.payoff = self.indiv_payoff
-    pass
+
+
 
 
 
@@ -123,6 +151,8 @@ class Player(BasePlayer):
     contribution = models.CurrencyField()
     total_payoff = models.CurrencyField()
     indiv_payoff = models.CurrencyField()
+    treat = models.CharField()
+    avg_earnings = models.CurrencyField()
 
     def set_payoffs(self):
         if self.id_in_group==1:
