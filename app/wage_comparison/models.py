@@ -68,6 +68,9 @@ class Subsession(BaseSubsession):
             for p in self.get_players():
                 if 'treatment' in self.session.config:
                     p.treat = self.session.config['treatment']
+        if self.round_number==1:
+            for p in self.get_players():
+                p.participant.vars['indiv_payoff']=0
 
 
         # for g in self.get_groups():
@@ -98,15 +101,17 @@ class Subsession(BaseSubsession):
 #Defines how groups opterate
 #Since we do not have groups, class is not used
 class Group(BaseGroup):
-    treatment = models.CharField()
-    avg_earnings = models.CurrencyField()
-    def set_payoffs(self):
+    def average(self):
         players = self.get_players()
-        
-        avg_earnings = sum([p.payoff for p in self.player.in_all_rounds()])/Constants.players_per_group
-
+        total = 0
         for p in players:
-            p.avg_earnings = avg_earnings
+            total+=self.participant.vars['indiv_payoff']
+        average = total/Constants.players_per_group
+        # self.average = sum([self.participant.vars['indiv_payoff'] for p in self.get_players()])
+        for p in players:
+            p.average = average
+        # for p in players:
+        #     p.avg_earnings = average
     # total_payoff = models.CurrencyField()
     # indiv_payoff = models.CurrencyField()
   # def average(self):
@@ -152,7 +157,7 @@ class Player(BasePlayer):
     total_payoff = models.CurrencyField()
     indiv_payoff = models.CurrencyField()
     treat = models.CharField()
-    avg_earnings = models.CurrencyField()
+    average = models.CurrencyField()
 
     def set_payoffs(self):
         if self.id_in_group==1:

@@ -125,6 +125,7 @@ class Question(Page):
 #         self.group.average()
 
 class ResultsWaitPage(WaitPage):
+
 	def vars_for_template(self):
 		self.player.set_payoffs()
 		seqdict = json.loads(self.player.seqdict)
@@ -138,9 +139,12 @@ class ResultsWaitPage(WaitPage):
 		self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
 		self.player.payoff = self.player.sumcorrect * \
 			self.player.contribution
+		self.participant.vars['indiv_payoff'] = self.player.payoff
 		return {'seq': seqdict}
-	def after_all_players_arrive(self):
-		self.group.set_payoffs()
+		def after_all_players_arrive(self):
+			self.group.average()
+	
+
 
 
 # class Information_Wage(Page):
@@ -162,8 +166,7 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
     ...
     def vars_for_templates(self):
-    	return{'seq': self.player.seqdict,
-    	'cumulative_payoff': self.player.cumulative_payoff}
+    	return{'seq': self.player.seqdict,}
     # def vars_for_template(self):
         # player_in_all_rounds = self.player.in_all_rounds()
         # #adds up all the times the player was correct
@@ -191,8 +194,7 @@ class Results(Page):
         self.player.payoff = self.player.sumcorrect * \
             self.player.contribution
         
-        return {'seq': seqdict,
-        'avg_payoff': self.avg_payoff}
+        return {'seq': seqdict,}
 
 page_sequence = [
     Introduction,
