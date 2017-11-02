@@ -101,11 +101,29 @@ class Subsession(BaseSubsession):
 #Defines how groups opterate
 #Since we do not have groups, class is not used
 class Group(BaseGroup):
+
+    def seq(self):
+        self.player.set_payoffs()
+        seqdict = json.loads(self.player.seqdict)
+        keys = [k for k, v in seqdict.items() if not v['answer']]
+        for x in keys:
+            del seqdict[x]
+        for key, value in seqdict.items():
+            seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
+            seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
+            seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
+        self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
+        self.player.payoff = self.player.sumcorrect * \
+            self.player.contribution
+        self.participant.vars['sequence'] = seqdict
+        
     def average(self):
+        # self.player.hello = 123
         players = self.get_players()
-        total = 0
+        total=0
         for p in players:
-            total+=self.participant.vars['indiv_payoff']
+            total+=p.payoff
+            # total+=self.p.indiv_payoff
         average = total/Constants.players_per_group
         # self.average = sum([self.participant.vars['indiv_payoff'] for p in self.get_players()])
         for p in players:
@@ -155,9 +173,11 @@ class Player(BasePlayer):
     sumcorrect = models.IntegerField(initial=0)
     contribution = models.CurrencyField()
     total_payoff = models.CurrencyField()
-    indiv_payoff = models.CurrencyField()
+    # indiv_payoff = models.CurrencyField()
+    total = models.CurrencyField()
     treat = models.CharField()
     average = models.CurrencyField()
+    hello = models.IntegerField()
 
     def set_payoffs(self):
         if self.id_in_group==1:
