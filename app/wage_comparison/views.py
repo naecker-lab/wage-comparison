@@ -57,7 +57,7 @@ class Introduction(Page):
 class Question(Page):
     form_model = models.Player
     #form_fields = ['answer']
-    timeout_seconds = 30
+    timeout_seconds = 20
     form_fields = ['contribution']
 
 
@@ -130,42 +130,35 @@ class ResultsWaitPage(WaitPage):
 
     # def is_displayed(self):
     #     return self.round_number == Constants.num_rounds
-		# self.player.set_payoffs()
-		# seqdict = json.loads(self.player.seqdict)
-		# keys = [k for k, v in seqdict.items() if not v['answer']]
-		# for x in keys:
-		# 	del seqdict[x]
-		# for key, value in seqdict.items():
-		# 	seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
-		# 	seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
-		# 	seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
-		# self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
-		# self.player.payoff = self.player.sumcorrect * \
-		# 	self.player.contribution
-
-		# self.player.indiv_payoff = self.player.payoff
-		# self.participant.vars['sequence'] = seqdict
-		# self.group.average()
-		# return {'seq': seqdict}
+        # self.player.set_payoffs()
+        # seqdict = json.loads(self.player.seqdict)
+        # keys = [k for k, v in seqdict.items() if not v['answer']]
+        # for x in keys:
+        #     del seqdict[x]
+        # for key, value in seqdict.items():
+        #     seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
+        #     seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
+        #     seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
+        #     self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
+        # self.player.payoff = self.player.sumcorrect * \
+        #     self.player.contribution
+        # self.group.average()
+        # return {'seq': seqdict}
     def after_all_players_arrive(self):
-        self.group.seq()
-        
+        self.player.set_payoffs()
+        seqdict = json.loads(self.player.seqdict)
+        keys = [k for k, v in seqdict.items() if not v['answer']]
+        for x in keys:
+            del seqdict[x]
+        for key, value in seqdict.items():
+            seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
+            seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
+            seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
+        self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
+        self.player.payoff = self.player.sumcorrect * \
+            self.player.contribution
+        self.player.hello = seqdict
         self.group.average()
-	
-			# self.player.set_payoffs()
-			# seqdict = json.loads(self.player.seqdict)
-			# keys = [k for k, v in seqdict.items() if not v['answer']]
-			# for x in keys:
-			# 	del seqdict[x]
-			# for key, value in seqdict.items():
-			# 	seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
-			# 	seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
-			# 	seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
-			# self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
-			# self.player.payoff = self.player.sumcorrect * \
-			# 	self.player.contribution
-			# self.participant.vars['indiv_payoff'] = self.player.payoff
-			# self.participant.vars['sequence'] = seqdict
 		
 
 
@@ -219,14 +212,16 @@ class Results(Page):
         #     self.player.contribution
         # self.participant.vars['sequence'] = seqdict
         # self.group.average()
-        seq = self.participant.vars['sequence']
+        # seq = self.participant.vars['sequence']
+
+        # self.group.average()
         
-        return {'seq': seq,}
+        return {'seq': self.participant.vars['sequence'],}
 
 page_sequence = [
     Introduction,
     Question,
-    ResultsWaitPage,
+    # ResultsWaitPage,
     # Information_Earnings,
     # Information_Wage,
     Results,

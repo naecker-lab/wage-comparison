@@ -102,20 +102,20 @@ class Subsession(BaseSubsession):
 #Since we do not have groups, class is not used
 class Group(BaseGroup):
 
-    def seq(self):
-        self.player.set_payoffs()
-        seqdict = json.loads(self.player.seqdict)
-        keys = [k for k, v in seqdict.items() if not v['answer']]
-        for x in keys:
-            del seqdict[x]
-        for key, value in seqdict.items():
-            seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
-            seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
-            seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
-        self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
-        self.player.payoff = self.player.sumcorrect * \
-            self.player.contribution
-        self.participant.vars['sequence'] = seqdict
+    # def seq(self):
+    #     self.player.set_payoffs()
+    #     seqdict = json.loads(self.player.seqdict)
+    #     keys = [k for k, v in seqdict.items() if not v['answer']]
+    #     for x in keys:
+    #         del seqdict[x]
+    #     for key, value in seqdict.items():
+    #         seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
+    #         seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
+    #         seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
+    #     self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
+    #     self.player.payoff = self.player.sumcorrect * \
+    #         self.player.contribution
+    #     self.participant.vars['sequence'] = seqdict
         
     def average(self):
         # self.player.hello = 123
