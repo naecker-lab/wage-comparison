@@ -125,10 +125,11 @@ class Group(BaseGroup):
             total+=p.payoff
             # total+=self.p.indiv_payoff
 
-        average = total/(Constants.players_per_group)
+        # average = total/(Constants.players_per_group)
         # self.average = sum([self.participant.vars['indiv_payoff'] for p in self.get_players()])
         for p in players:
-            p.average = average
+            p.total = total
+            # p.average = average
         # for p in players:
         #     p.avg_earnings = average
     # total_payoff = models.CurrencyField()
