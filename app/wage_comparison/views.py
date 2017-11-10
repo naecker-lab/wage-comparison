@@ -57,7 +57,7 @@ class Introduction(Page):
 class Question(Page):
     form_model = models.Player
     #form_fields = ['answer']
-    timeout_seconds = 30
+    timeout_seconds = 20
     form_fields = ['contribution']
     #correct_so_far = sum([player.is_correct+self.player.in_previous_rounds()])
     #cumsum = [correct_so_far * self.player.contribution]
@@ -98,6 +98,7 @@ class Question(Page):
 
 
         # Returns these values to Question.html
+
         # return{
         #     #'series' : points,
         #     'matrix' : m,
@@ -128,14 +129,77 @@ class Question(Page):
 #     def after_all_players_arrive(self):
 #         self.group.average()
 
-# class ResultsWaitPage(WaitPage):
-#     def after_all_players_arrive(self):
-#         self.group.set_payoffs()
+class ResultsWaitPage(WaitPage):
+    # self.player.set_payoffs()
+    # seqdict = json.loads(self.player.seqdict)
+    # keys = [k for k, v in seqdict.items() if not v['answer']]
+    # for x in keys:
+    #     del seqdict[x]
+    # for key, value in seqdict.items():
+    #     seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
+    #     seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
+    #     seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
+    # self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
+    # self.player.payoff = self.player.sumcorrect * \
+    #     self.player.contribution
+    
+
+    def is_displayed(self):
+        self.player.set_payoffs()
+        seqdict = json.loads(self.player.seqdict)
+        keys = [k for k, v in seqdict.items() if not v['answer']]
+        for x in keys:
+            del seqdict[x]
+        for key, value in seqdict.items():
+            seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
+            seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
+            seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
+        self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
+        self.player.payoff = self.player.sumcorrect * \
+            self.player.contribution
+        return self.round_number==1
+        # self.group.average()
+        # return {'seq': seqdict}
+    def after_all_players_arrive(self):
+        # self.player.set_payoffs()
+        # seqdict = json.loads(self.player.seqdict)
+        # keys = [k for k, v in seqdict.items() if not v['answer']]
+        # for x in keys:
+        #     del seqdict[x]
+        # for key, value in seqdict.items():
+        #     seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
+        #     seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
+        #     seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
+        # self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
+        # self.player.payoff = self.player.sumcorrect * \
+        #     self.player.contribution
+        # self.participant.vars['sequence'] = seqdict
+        self.group.average()
+		
+
+
+
+
+# class Information_Wage(Page):
+# 	def vars_for_template(self):
+# 		x = "hello"
+# 		return {'x': x}
+# 	def is_displayed(self):
+# 		return self.player.treat=='wage'
+
+
+# class Information_Earnings(Page):
+# 	def vars_for_template(self):
+# 		x = "hello"
+# 		return {'x': x}
+# 	def is_displayed(self):
+# 		return self.player.treat=='earnings'
 
 #This class sends information to Results.html
 class Results(Page):
     ...
-
+    # def vars_for_templates(self):
+    # 	return{'seq': self.participant.vars['sequence']}
     # def vars_for_template(self):
         # player_in_all_rounds = self.player.in_all_rounds()
         # #adds up all the times the player was correct
@@ -149,23 +213,38 @@ class Results(Page):
         # }
 
     def vars_for_template(self):
+        
         self.player.set_payoffs()
-        seqdict = json.loads(self.player.seqdict)
-        keys = [k for k, v in seqdict.items() if not v['answer']]
+        sequencedict = json.loads(self.player.seqdict)
+        keys = [k for k, v in sequencedict.items() if not v['answer']]
         for x in keys:
-            del seqdict[x]
-        for key, value in seqdict.items():
-            seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
-            seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
-            seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
-        self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
+            del sequencedict[x]
+        for key, value in sequencedict.items():
+            sequencedict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
+            sequencedict[key]['iscorrect'] = sequencedict[key]['corranswer'] == int(sequencedict[key]['answer'])
+            sequencedict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
+        self.player.sumcorrect = sum([v['iscorrect'] for k, v in sequencedict.items()])
         
         self.player.payoff = self.player.sumcorrect * \
             self.player.contribution
-        return {'seq': seqdict}
+
+        self.player.average = (self.player.total - self.player.payoff)/(Constants.players_per_group - 1)
+
+
+        # self.participant.vars['sequence'] = seqdict
+        # self.group.average()
+        # seq = self.participant.vars['sequence']
+
+        # self.group.average()
+        
+        return {'seq': sequencedict,}
 
 page_sequence = [
     Introduction,
     Question,
+    ResultsWaitPage,
+    # Information_Earnings,
+    # Information_Wage,
     Results,
+
 ]

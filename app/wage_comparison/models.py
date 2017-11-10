@@ -1,5 +1,5 @@
 from otree.api import (
-    models, widgets, BaseConstants, BaseSubsession, BaseGroup, BasePlayer,
+    models, widgets, BaseConstants, BaseSubsession, BaseGroup, BasePlayer, 
     Currency as c, currency_range
 )
 import random
@@ -56,12 +56,33 @@ class Constants(BaseConstants):
 
 
 class Subsession(BaseSubsession):
+
     def before_session_starts(self):
     # if self.round_number == 1:
     #   for p in self.get_players():
     #     p.participant.vars['correct_answers'] = 0
         for p in self.get_players():
+
             p.seqdict=json.dumps({})
+            
+            for p in self.get_players():
+                if 'treatment' in self.session.config:
+                    p.treat = self.session.config['treatment']
+        if self.round_number==1:
+            for p in self.get_players():
+                p.participant.vars['indiv_payoff']=0
+
+
+        # for g in self.get_groups():
+        #     g.treatment=random.choice(['control','wage'])
+        # if self.round_number==1:
+        #     for p in self.get_players():
+        #         p.participant.vars['treatment'] = random.choice(['control','wage'])
+        # if self.round_number==1:
+        #     for g in self.get_groups():
+        #         p1=g.get_player_by_id(1)
+        #         p1.participant.vars['treatment'] = random.choice(['control','wage'])
+        
 
             #assigns players to different treaments
             # for p in self.get_players():
@@ -80,6 +101,37 @@ class Subsession(BaseSubsession):
 #Defines how groups opterate
 #Since we do not have groups, class is not used
 class Group(BaseGroup):
+
+    # def seq(self):
+    #     self.player.set_payoffs()
+    #     seqdict = json.loads(self.player.seqdict)
+    #     keys = [k for k, v in seqdict.items() if not v['answer']]
+    #     for x in keys:
+    #         del seqdict[x]
+    #     for key, value in seqdict.items():
+    #         seqdict[key]['corranswer'] = Constants.seqsize - sum(value['seq_to_show'])
+    #         seqdict[key]['iscorrect'] = seqdict[key]['corranswer'] == int(seqdict[key]['answer'])
+    #         seqdict[key]['seq_to_show'] = ''.join(str(e) for e in value['seq_to_show'])
+    #     self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
+    #     self.player.payoff = self.player.sumcorrect * \
+    #         self.player.contribution
+    #     self.participant.vars['sequence'] = seqdict
+        
+    def average(self):
+        # self.player.hello = 123
+        players = self.get_players()
+        total=0
+        for p in players:
+            total+=p.payoff
+            # total+=self.p.indiv_payoff
+
+        # average = total/(Constants.players_per_group)
+        # self.average = sum([self.participant.vars['indiv_payoff'] for p in self.get_players()])
+        for p in players:
+            p.total = total
+            # p.average = average
+        # for p in players:
+        #     p.avg_earnings = average
     # total_payoff = models.CurrencyField()
     # indiv_payoff = models.CurrencyField()
   # def average(self):
@@ -102,7 +154,8 @@ class Group(BaseGroup):
         #     self.indiv_payoff = rand2
         # for p in self.get_players():
         #     p.payoff = self.indiv_payoff
-    pass
+
+
 
 
 
@@ -122,7 +175,12 @@ class Player(BasePlayer):
     sumcorrect = models.IntegerField(initial=0)
     contribution = models.CurrencyField()
     total_payoff = models.CurrencyField()
-    indiv_payoff = models.CurrencyField()
+    payoff = models.CurrencyField()
+    # indiv_payoff = models.CurrencyField()
+    total = models.CurrencyField()
+    treat = models.CharField()
+    average = models.CurrencyField()
+
 
     def set_payoffs(self):
         if self.id_in_group==1:

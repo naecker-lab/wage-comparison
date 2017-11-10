@@ -8,6 +8,7 @@
 {% block content %}
 
 <div class="panel-body">
+
 <table class="table table-hover table-striped table-responsive table-bordered">
   <thead>
     <th>Sequence</th>
@@ -48,6 +49,9 @@
     <span class="badge badge-primary badge-pill">{{player.sumcorrect}}</span></li>
   <li class="list-group-item list-group-item-warning">Your payoff:
     <span class="badge badge-pill badge-primary ">{{player.payoff}}</span></li>
+  <!-- only if in earnings treatment -->
+  <li class="list-group-item list-group-item-info">Average payoff:
+    <span class="badge badge-pill badge-primary ">{{player.average}}</span></li>
 </ul>
 
 {% next_button %}

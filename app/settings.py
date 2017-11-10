@@ -146,25 +146,25 @@ SESSION_CONFIG_DEFAULTS = {
 SESSION_CONFIGS = [
    
     {	
-        'name': 'wage_comparison',
+        'name': 'wage_comparison_control',
         'display_name': "Wage Comparison",
         'num_demo_participants': 2,
         'app_sequence': ['wage_comparison',],
     },
-    # {
-    #     'name': 'wage_comparison_wage',
-    #     'display_name': 'Wage Comparison Wage Treatment',
-    #     'num_demo_participants':2,
-    #     'app_sequence': ['wage_comparison'],
-    #     'treatment': 'wage',
-    # }
-    # {
-    #     'name': 'wage_comparison_earnings',
-    #     'display_name': 'Wage Comparison Earnings Treatment',
-    #     'num_demo_participants':2,
-    #     'app_sequence': ['wage_comparison'],
-    #     'treatment': 'earnings',
-    # }
+    {
+        'name': 'wage_comparison_wage',
+        'display_name': 'Wage Comparison Wage Treatment',
+        'num_demo_participants':2,
+        'app_sequence': ['wage_comparison'],
+        'treatment': 'wage',
+    },
+    {
+        'name': 'wage_comparison_earnings',
+        'display_name': 'Wage Comparison Earnings Treatment',
+        'num_demo_participants':2,
+        'app_sequence': ['wage_comparison'],
+        'treatment': 'earnings',
+    },
 
 ]
 
