@@ -59,6 +59,10 @@ class Question(Page):
     #form_fields = ['answer']
     timeout_seconds = 30
     form_fields = ['contribution']
+    #correct_so_far = sum([player.is_correct+self.player.in_previous_rounds()])
+    #cumsum = [correct_so_far * self.player.contribution]
+    #need to figure out the variable for correct so far and then create a cumsum variable 
+    #   that contains number of correct and player contribution together to be shown in html
 
 
     # def vars_for_template(self):
@@ -113,10 +117,10 @@ class Question(Page):
         # }
 
     #check whether player's submitted answer is correct
-#     def before_next_page(self):
-#         self.player.check_correct()
-#         if self.player.is_correct == True:
-#             self.participant.vars["correct_answers"] +=1
+    def before_next_page(self):
+        # self.player.check_correct()
+        if self.player.is_correct == True:
+            self.participant.vars["correct_answers"] +=1
 
 # class ResultsWaitPage(WaitPage):
 #     def is_displayed(self):

@@ -111,7 +111,7 @@ class Player(BasePlayer):
     # #player's answer for each matrix
     # #answer = models.PositiveIntegerField(max=Constants.guess_max)
     # #checks if player's answer matches the solution
-    # is_correct = models.BooleanField()
+    #is_correct = models.BooleanField()
     # #matrix number of zeros solution - will use for Results page
     # solution = models.PositiveIntegerField()
     # question_correct = models.BooleanField()
@@ -133,13 +133,13 @@ class Player(BasePlayer):
 
 
     #function that checks if player's answer is correct
-    # def check_correct(self):
-    #   if self.id_in_group==1:
-    #     self.solution = Constants.zeros1[self.round_number-1]
-    #     self.is_correct = (self.answer == Constants.zeros1[self.round_number-1])
-    #   if self.id_in_group==2:
-    #     self.solution = Constants.zeros2[self.round_number-1]
-    #     self.is_correct = (self.answer == Constants.zeros2[self.round_number-1])
+    def check_correct(self):
+      if self.id_in_group==1:
+        self.solution = Constants.zeros1[self.round_number-1]
+        self.is_correct = (self.answer == Constants.zeros1[self.round_number-1])
+      if self.id_in_group==2:
+        self.solution = Constants.zeros2[self.round_number-1]
+        self.is_correct = (self.answer == Constants.zeros2[self.round_number-1])
 
     # def other_player(self):
     #   return self.get_others_in_group()[0]
