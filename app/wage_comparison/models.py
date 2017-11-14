@@ -117,7 +117,7 @@ class Group(BaseGroup):
     #         self.player.contribution
     #     self.participant.vars['sequence'] = seqdict
         
-    def average(self):
+    def averageearnings(self):
         # self.player.hello = 123
         players = self.get_players()
         total=0
@@ -128,7 +128,7 @@ class Group(BaseGroup):
         # average = total/(Constants.players_per_group)
         # self.average = sum([self.participant.vars['indiv_payoff'] for p in self.get_players()])
         for p in players:
-            p.total = total
+            p.totalearnings = total
             # p.average = average
         # for p in players:
         #     p.avg_earnings = average
@@ -154,6 +154,13 @@ class Group(BaseGroup):
         #     self.indiv_payoff = rand2
         # for p in self.get_players():
         #     p.payoff = self.indiv_payoff
+    def averagewages(self):
+        players=self.get_players()
+        total=0
+        for p in players:
+            total+=p.contribution
+        for p in players:
+            p.totalwages = total
 
 
 
@@ -177,9 +184,11 @@ class Player(BasePlayer):
     total_payoff = models.CurrencyField()
     payoff = models.CurrencyField()
     # indiv_payoff = models.CurrencyField()
-    total = models.CurrencyField()
+    totalearnings = models.CurrencyField()
     treat = models.CharField()
-    average = models.CurrencyField()
+    averageearnings = models.CurrencyField()
+    totalwages = models.CurrencyField()
+    averagewages = models.CurrencyField()
 
 
     def set_payoffs(self):
