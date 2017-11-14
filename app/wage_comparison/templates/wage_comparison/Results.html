@@ -50,10 +50,18 @@
   <li class="list-group-item list-group-item-warning">Your payoff:
     <span class="badge badge-pill badge-primary ">{{player.payoff}}</span></li>
   <!-- only if in earnings treatment -->
+
+  {% if player.treat == 'earnings' %}
   <li class="list-group-item list-group-item-info">Average payoff:
-    <span class="badge badge-pill badge-primary ">{{player.averageearnings}}</span></li>
+    <span class="badge badge-pill badge-primary ">{{player.avgearnings}}</span></li>
+  {% endif %}
+
+  {% if player.treat == 'wage' %}
   <li class="list-group-item list-group-item-info">Average wage:
-    <span class="badge badge-pill badge-primary ">{{player.averagewages}}</span></li>
+    <span class="badge badge-pill badge-primary ">{{player.avgwages}}</span></li>
+  {% endif %}
+
+
 </ul>
 
 {% next_button %}

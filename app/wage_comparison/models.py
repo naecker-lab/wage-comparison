@@ -186,9 +186,9 @@ class Player(BasePlayer):
     # indiv_payoff = models.CurrencyField()
     totalearnings = models.CurrencyField()
     treat = models.CharField()
-    averageearnings = models.CurrencyField()
+    avgearnings = models.CurrencyField()
     totalwages = models.CurrencyField()
-    averagewages = models.CurrencyField()
+    avgwages = models.CurrencyField()
 
 
     def set_payoffs(self):

@@ -170,8 +170,9 @@ class ResultsWaitPage(WaitPage):
         # self.player.payoff = self.player.sumcorrect * \
         #     self.player.contribution
         # self.participant.vars['sequence'] = seqdict
-        self.group.averageearnings()
-        self.group.averagewages()
+        if self.round_number == 1:
+            self.group.averageearnings()
+            self.group.averagewages()
 		
 
 
@@ -224,9 +225,11 @@ class Results(Page):
         
         self.player.payoff = self.player.sumcorrect * \
             self.player.contribution
+        
+        if self.round_number == 1:
+            self.player.avgearnings = (self.player.totalearnings - self.player.payoff)/(Constants.players_per_group - 1)
 
-        self.player.averageearnings = (self.player.totalearnings - self.player.payoff)/(Constants.players_per_group - 1)
-        self.player.averagewages = (self.player.totalwages-self.player.contribution)/(Constants.players_per_group-1)
+            self.player.avgwages = (self.player.totalwages-self.player.contribution)/(Constants.players_per_group-1)
 
 
         # self.participant.vars['sequence'] = seqdict
