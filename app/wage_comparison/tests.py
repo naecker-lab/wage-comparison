@@ -8,9 +8,11 @@ from .views import Question
 class PlayerBot(Bot):
 
     def play_round(self):
-        submitted_answer = self.player.current_question()['choice1']
+        # submitted_answer = self.player.current_question()['choice1']
         # answer = num_zero
+        yield(views.Introduction)
 
-        yield (views.Question, {'submitted_answer': submitted_answer})
-        if self.subsession.round_number == Constants.num_rounds:
-            yield (views.Results)
+
+        yield (views.Question, {'contribution': 50})
+        yield(views.Results)
+        
