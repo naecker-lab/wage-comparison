@@ -153,9 +153,9 @@ class ResultsWaitPage(WaitPage):
         self.player.sumcorrect = sum([v['iscorrect'] for k, v in seqdict.items()])
         self.player.payoff = self.player.sumcorrect * \
             self.player.contribution
-        return self.round_number==1
+        # return self.round_number==1
         # self.group.average()
-        # return {'seq': seqdict}
+        return {'seq': seqdict}
     def after_all_players_arrive(self):
         # self.player.set_payoffs()
         # seqdict = json.loads(self.player.seqdict)
@@ -170,9 +170,9 @@ class ResultsWaitPage(WaitPage):
         # self.player.payoff = self.player.sumcorrect * \
         #     self.player.contribution
         # self.participant.vars['sequence'] = seqdict
-        if self.round_number == 1:
-            self.group.averageearnings()
-            self.group.averagewages()
+        # if self.round_number == 1:
+        self.group.averageearnings()
+        self.group.averagewages()
 		
 
 
@@ -226,9 +226,10 @@ class Results(Page):
         self.player.payoff = self.player.sumcorrect * \
             self.player.contribution
         
-        if self.round_number == 1:
+        # if self.round_number == 1:
+        if self.player.treat=='earnings':
             self.player.avgearnings = (self.player.totalearnings - self.player.payoff)/(Constants.players_per_group - 1)
-
+        if self.player.treat=='wage':
             self.player.avgwages = (self.player.totalwages-self.player.contribution)/(Constants.players_per_group-1)
 
 

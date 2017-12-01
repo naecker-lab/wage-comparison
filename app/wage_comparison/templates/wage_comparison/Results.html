@@ -47,17 +47,19 @@
   <ul class="list-group">
   <li class="list-group-item list-group-item-success">Number of correct answers:
     <span class="badge badge-primary badge-pill">{{player.sumcorrect}}</span></li>
-  <li class="list-group-item list-group-item-warning">Your payoff:
+  <li class="list-group-item list-group-item-info">Your wage:
+    <span class="badge badge-primary badge-pill">{{player.contribution}}
+  <li class="list-group-item list-group-item-warning">Your earnings:
     <span class="badge badge-pill badge-primary ">{{player.payoff}}</span></li>
   <!-- only if in earnings treatment -->
 
   {% if player.treat == 'earnings' %}
-  <li class="list-group-item list-group-item-info">Average payoff:
+  <li class="list-group-item list-group-item-info">Average earnings of other players:
     <span class="badge badge-pill badge-primary ">{{player.avgearnings}}</span></li>
   {% endif %}
 
   {% if player.treat == 'wage' %}
-  <li class="list-group-item list-group-item-info">Average wage:
+  <li class="list-group-item list-group-item-info">Average wage of other players:
     <span class="badge badge-pill badge-primary ">{{player.avgwages}}</span></li>
   {% endif %}
 
