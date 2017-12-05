@@ -162,6 +162,14 @@ class Group(BaseGroup):
         for p in players:
             p.totalwages = total
 
+    def set_payoffs(self):
+        players=self.get_players()
+        for p in players:
+            if p.id_in_group==1:
+                p.contribution = Constants.rand1
+            if p.id_in_group==2:
+                p.contribution = Constants.rand2
+
 
 
 
@@ -191,11 +199,11 @@ class Player(BasePlayer):
     avgwages = models.CurrencyField()
 
 
-    def set_payoffs(self):
-        if self.id_in_group==1:
-            self.contribution = Constants.rand1
-        if self.id_in_group==2:
-            self.contribution = Constants.rand2
+    # def set_payoffs(self):
+    #     if self.id_in_group==1:
+    #         self.contribution = Constants.rand1
+    #     if self.id_in_group==2:
+    #         self.contribution = Constants.rand2
 
 
 

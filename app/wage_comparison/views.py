@@ -42,7 +42,7 @@ class Introduction(Page):
     """Description of the game: How to play and returns expected"""
 
     def vars_for_template(self):
-        self.player.set_payoffs()
+        self.group.set_payoffs()
         return {'x': self.player.contribution}
 
     def is_displayed(self):
@@ -57,7 +57,7 @@ class Introduction(Page):
 class Question(Page):
     form_model = models.Player
     #form_fields = ['answer']
-    timeout_seconds = 20
+    timeout_seconds = 180
     form_fields = ['contribution']
 
 
@@ -86,7 +86,7 @@ class Question(Page):
 
 
     def vars_for_template(self):
-        self.player.set_payoffs()
+        self.group.set_payoffs()
         seqdict = json.loads(self.player.seqdict)
         seqdict = update_seq_dict(seqdict, self.player.seqcounter)
         self.player.seqdict = json.dumps(seqdict)
@@ -141,7 +141,7 @@ class ResultsWaitPage(WaitPage):
     
 
     def is_displayed(self):
-        self.player.set_payoffs()
+        self.group.set_payoffs()
         seqdict = json.loads(self.player.seqdict)
         keys = [k for k, v in seqdict.items() if not v['answer']]
         for x in keys:
@@ -212,7 +212,7 @@ class Results(Page):
 
     def vars_for_template(self):
         
-        self.player.set_payoffs()
+        self.group.set_payoffs()
         sequencedict = json.loads(self.player.seqdict)
         keys = [k for k, v in sequencedict.items() if not v['answer']]
         for x in keys:
