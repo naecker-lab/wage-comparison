@@ -41,6 +41,7 @@ class Introduction(Page):
     # form_fields=['contribution']
     """Description of the game: How to play and returns expected"""
 
+    #calls function to set the payoffs for each player
     def vars_for_template(self):
         self.group.set_payoffs()
         return {'x': self.player.contribution}
@@ -57,8 +58,11 @@ class Introduction(Page):
 class Question(Page):
     form_model = models.Player
     #form_fields = ['answer']
+
+    #3-minute time limit
     timeout_seconds = 180
     form_fields = ['contribution']
+
 
 
     # def vars_for_template(self):
@@ -87,6 +91,9 @@ class Question(Page):
 
     def vars_for_template(self):
         self.group.set_payoffs()
+
+
+        #create array of 0's and 1's, and set up dictionary for the arrays and counter for correct answers
         seqdict = json.loads(self.player.seqdict)
         seqdict = update_seq_dict(seqdict, self.player.seqcounter)
         self.player.seqdict = json.dumps(seqdict)
@@ -125,6 +132,7 @@ class Question(Page):
 #     def after_all_players_arrive(self):
 #         self.group.average()
 
+#after both players have reached the time limit, avg earnings/wages will be calculated
 class ResultsWaitPage(WaitPage):
     # self.player.set_payoffs()
     # seqdict = json.loads(self.player.seqdict)

@@ -22,10 +22,14 @@ class Constants(BaseConstants):
     name_in_url = 'counting-zeros1'
     players_per_group = 2
     num_rounds=2
+    #set size of array
     seqsize = 100
+    #prob of 0's and 1's appearing
     seqthreshold=0.5
     price_per_correct_answer = 10
     endowment = c(0)
+
+    #wages for each player
     rand2 = random.sample(set([0.5, 0.1]),1)
     rand2 = rand2[0]
     rand1 = 0.6 - rand2
@@ -57,6 +61,7 @@ class Constants(BaseConstants):
 
 class Subsession(BaseSubsession):
 
+	#setting the three different treatment groups
     def before_session_starts(self):
     # if self.round_number == 1:
     #   for p in self.get_players():
@@ -116,17 +121,21 @@ class Group(BaseGroup):
     #     self.player.payoff = self.player.sumcorrect * \
     #         self.player.contribution
     #     self.participant.vars['sequence'] = seqdict
-        
+    
+    #calculates average earnings of the two players if in the earnings treatment    
     def averageearnings(self):
         # self.player.hello = 123
         players = self.get_players()
         total=0
+        #adds up total earnings
         for p in players:
             total+=p.payoff
             # total+=self.p.indiv_payoff
 
         # average = total/(Constants.players_per_group)
         # self.average = sum([self.participant.vars['indiv_payoff'] for p in self.get_players()])
+        
+        #average earnings
         for p in players:
             p.totalearnings = total
             # p.average = average
@@ -154,14 +163,18 @@ class Group(BaseGroup):
         #     self.indiv_payoff = rand2
         # for p in self.get_players():
         #     p.payoff = self.indiv_payoff
+    #calculates average wages of the two players if in the wages treatment
     def averagewages(self):
         players=self.get_players()
         total=0
+        #add up the total wages
         for p in players:
             total+=p.contribution
+        #average wage
         for p in players:
             p.totalwages = total
 
+    #sets the wages for the two players
     def set_payoffs(self):
         players=self.get_players()
         for p in players:
