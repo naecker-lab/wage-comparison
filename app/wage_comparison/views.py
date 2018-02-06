@@ -90,7 +90,7 @@ class Question(Page):
 
 
     def vars_for_template(self):
-        self.group.set_payoffs()
+        # self.group.set_payoffs()
 
 
         #create array of 0's and 1's, and set up dictionary for the arrays and counter for correct answers
