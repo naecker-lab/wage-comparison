@@ -20,7 +20,7 @@ See the comment below about how to randomize the order of pages.
 #Defines attributes of game that remain constant throughout game
 class Constants(BaseConstants):
     name_in_url = 'counting-zeros1'
-    players_per_group = 2
+    players_per_group = None
     num_rounds=2
     #set size of array
     seqsize = 100
@@ -33,6 +33,8 @@ class Constants(BaseConstants):
     rand2 = random.sample(set([0.5, 0.1]),1)
     rand2 = rand2[0]
     rand1 = 0.6 - rand2
+
+    rand = random.sample([0.1, 0.2, 0.3, 0.4, 0.5, 0.6], 6)
     # instructions_template = 'wage_comparison/Instructions.html'
     #guess_max = 150
 
@@ -178,10 +180,24 @@ class Group(BaseGroup):
     def set_payoffs(self):
         players=self.get_players()
         for p in players:
+        	# p.contribution=0.2
+            # if p.id_in_group==1:
+            #     p.contribution = Constants.rand1
+            # if p.id_in_group==2:
+            #     p.contribution = Constants.rand2
             if p.id_in_group==1:
-                p.contribution = Constants.rand1
+            	p.contribution=Constants.rand[0]
             if p.id_in_group==2:
-                p.contribution = Constants.rand2
+            	p.contribution=Constants.rand[1]
+            if p.id_in_group==3:
+            	p.contribution=Constants.rand[2]
+            if p.id_in_group==4:
+            	p.contribution=Constants.rand[3]
+            if p.id_in_group==5:
+            	p.contribution=Constants.rand[4]
+            if p.id_in_group==6:
+            	p.contribution=Constants.rand[5]
+
 
 
 

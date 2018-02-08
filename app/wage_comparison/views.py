@@ -60,7 +60,7 @@ class Question(Page):
     #form_fields = ['answer']
 
     #3-minute time limit
-    timeout_seconds = 180
+    timeout_seconds = 30
     form_fields = ['contribution']
 
 
@@ -236,7 +236,8 @@ class Results(Page):
         
         # if self.round_number == 1:
         if self.player.treat=='earnings':
-            self.player.avgearnings = (self.player.totalearnings - self.player.payoff)/(Constants.players_per_group - 1)
+            # self.player.avgearnings = (self.player.totalearnings - self.player.payoff)/(Constants.players_per_group - 1)
+            self.player.avgearnings=(self.player.totalearnings)
         if self.player.treat=='wage':
             self.player.avgwages = (self.player.totalwages-self.player.contribution)/(Constants.players_per_group-1)
 
