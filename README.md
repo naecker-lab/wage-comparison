@@ -1,3 +1,7 @@
+To start a non-demo session, you go to the Sessions tab and click the 
+"Create New Session" button - on the next page it asks you how many 
+subjects to start the session for. 
+
 ## Wage Comparison Project
 
 This repo stores the code to run and analyze our experiment on wage comparisons.
