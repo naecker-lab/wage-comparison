@@ -237,9 +237,10 @@ class Results(Page):
         # if self.round_number == 1:
         if self.player.treat=='earnings':
             # self.player.avgearnings = (self.player.totalearnings - self.player.payoff)/(Constants.players_per_group - 1)
-            self.player.avgearnings=(self.player.totalearnings)
+            self.player.avgearnings=(self.player.totalearnings - self.player.payoff)/(len(self.group.get_players())-1)
+
         if self.player.treat=='wage':
-            self.player.avgwages = (self.player.totalwages-self.player.contribution)/(Constants.players_per_group-1)
+            self.player.avgwages = (self.player.totalwages-self.player.contribution)/(len(self.group.get_players())-1)
 
 
         # self.participant.vars['sequence'] = seqdict

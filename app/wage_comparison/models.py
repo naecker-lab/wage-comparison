@@ -175,6 +175,7 @@ class Group(BaseGroup):
         #average wage
         for p in players:
             p.totalwages = total
+        
 
     #sets the wages for the two players
     def set_payoffs(self):
