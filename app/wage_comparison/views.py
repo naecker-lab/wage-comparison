@@ -62,7 +62,7 @@ class Question(Page):
     #3-minute time limit
     # timeout_seconds = 30
 
-    form_fields = ['contribution']
+    form_fields = ['sumcorrect']
 
     def get_timeout_seconds(self):
         return self.session.config['my_page_timeout_seconds']

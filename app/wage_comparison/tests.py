@@ -11,10 +11,12 @@ class PlayerBot(Bot):
     def play_round(self):
         # submitted_answer = self.player.current_question()['choice1']
         # answer = num_zero
-        yield Submission(views.Introduction)
-        yield Submission(views.Question, {'contribution': 10}, check_html=False)
+        yield (views.Introduction)
+        yield Submission(views.Question, {'sumcorrect': 0}, check_html=False)
 
-        yield Submission(views.Results)
+        yield (views.Results)
+        # yield Submission(views.Question, {'sumcorrect': 0}, check_html=False)
+        # yield (views.Results)
 
 
         # yield (views.Question, {'contribution': 50})

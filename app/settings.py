@@ -150,7 +150,7 @@ SESSION_CONFIGS = [
         'display_name': "Wage Comparison",
         'num_demo_participants': 2,
         'app_sequence': ['wage_comparison',],
-        'my_page_timeout_seconds': 60,
+        'my_page_timeout_seconds': 30,
     },
     {
         'name': 'wage_comparison_wage',
@@ -158,7 +158,7 @@ SESSION_CONFIGS = [
         'num_demo_participants':2,
         'app_sequence': ['wage_comparison'],
         'treatment': 'wage',
-        'my_page_timeout_seconds': 60,
+        'my_page_timeout_seconds': 30,
     },
     {
         'name': 'wage_comparison_earnings',
@@ -166,7 +166,7 @@ SESSION_CONFIGS = [
         'num_demo_participants':2,
         'app_sequence': ['wage_comparison'],
         'treatment': 'earnings',
-        'my_page_timeout_seconds': 60,
+        'my_page_timeout_seconds': 30,
     },
 
 ]
