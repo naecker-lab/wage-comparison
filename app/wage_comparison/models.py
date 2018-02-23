@@ -216,6 +216,7 @@ class Player(BasePlayer):
     # average = models.FloatField()
     # total = models.FloatField()
     seqdict = models.TextField()
+    seq=models.TextField()
     seqcounter = models.IntegerField(initial=0)
     sumcorrect = models.IntegerField(initial=0)
     contribution = models.CurrencyField()

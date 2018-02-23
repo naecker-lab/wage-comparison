@@ -148,14 +148,14 @@ SESSION_CONFIGS = [
     {	
         'name': 'wage_comparison_control',
         'display_name': "Wage Comparison",
-        'num_demo_participants': 2,
+        'num_demo_participants': 3,
         'app_sequence': ['wage_comparison',],
         'my_page_timeout_seconds': 30,
     },
     {
         'name': 'wage_comparison_wage',
         'display_name': 'Wage Comparison Wage Treatment',
-        'num_demo_participants':2,
+        'num_demo_participants':3,
         'app_sequence': ['wage_comparison'],
         'treatment': 'wage',
         'my_page_timeout_seconds': 30,
@@ -163,7 +163,7 @@ SESSION_CONFIGS = [
     {
         'name': 'wage_comparison_earnings',
         'display_name': 'Wage Comparison Earnings Treatment',
-        'num_demo_participants':2,
+        'num_demo_participants':3,
         'app_sequence': ['wage_comparison'],
         'treatment': 'earnings',
         'my_page_timeout_seconds': 30,

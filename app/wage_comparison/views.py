@@ -62,7 +62,7 @@ class Question(Page):
     #3-minute time limit
     # timeout_seconds = 30
 
-    form_fields = ['sumcorrect']
+    form_fields = ['seq']
 
     def get_timeout_seconds(self):
         return self.session.config['my_page_timeout_seconds']
@@ -208,7 +208,6 @@ class ResultsWaitPage(WaitPage):
 
 #This class sends information to Results.html
 class Results(Page):
-    ...
     # def vars_for_templates(self):
     # 	return{'seq': self.participant.vars['sequence']}
     # def vars_for_template(self):

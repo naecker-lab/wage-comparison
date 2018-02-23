@@ -9,16 +9,18 @@ from otree.api import Submission
 class PlayerBot(Bot):
 
     def play_round(self):
-        # submitted_answer = self.player.current_question()['choice1']
-        # answer = num_zero
+
         yield (views.Introduction)
-        yield Submission(views.Question, {'sumcorrect': 0}, check_html=False)
+        yield Submission(views.Question, {'seq': ''}, timeout_happened=True, check_html=False)
 
         yield (views.Results)
-        # yield Submission(views.Question, {'sumcorrect': 0}, check_html=False)
-        # yield (views.Results)
+
+        yield Submission(views.Question, {'seq': ''}, timeout_happened=True, check_html=False)
+
+        yield(views.Results)
 
 
-        # yield (views.Question, {'contribution': 50})
-        # yield(views.Results)
         
+#Add bot that sometimes submits the right answer and sometime submits the wrong answer
+#Add bot that always submits wrong answer
+#Add bot that submits nothing, just lets timer expire
