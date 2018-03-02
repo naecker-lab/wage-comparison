@@ -151,6 +151,7 @@ SESSION_CONFIGS = [
         'num_demo_participants': 3,
         'app_sequence': ['wage_comparison',],
         'my_page_timeout_seconds': 30,
+        'use_browser_bots': True,
     },
     {
         'name': 'wage_comparison_wage',
@@ -159,6 +160,7 @@ SESSION_CONFIGS = [
         'app_sequence': ['wage_comparison'],
         'treatment': 'wage',
         'my_page_timeout_seconds': 30,
+        'use_browser_bots': True,
     },
     {
         'name': 'wage_comparison_earnings',
@@ -167,6 +169,7 @@ SESSION_CONFIGS = [
         'app_sequence': ['wage_comparison'],
         'treatment': 'earnings',
         'my_page_timeout_seconds': 30,
+        'use_browser_bots': True,
     },
 
 ]
